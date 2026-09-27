@@ -1,0 +1,267 @@
+{
+  "title": "El juego y Gimnasia — cuestionario 2",
+  "nextQuizQuery": "Genera un tercer cuestionario nuevo de 20 preguntas de dificultad media sobre El juego y Gimnasia usando únicamente los temas 6, 9 y 10 de Didáctica de la Educación Física, sin repetir preguntas anteriores.",
+  "locale_override": "es",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Durante un juego, las condiciones cambian constantemente y el estudiante debe escoger cómo actuar. ¿Qué combinación de procesos exige principalmente esta situación según el tema 6?",
+      "type": "single_select",
+      "correctValues": ["C"],
+      "hint": "Relaciona la adaptación al entorno con interpretar lo que ocurre, elegir y ejecutar.",
+      "options": [
+        {"value": "A", "label": "Imitación, memorización y repetición mecánica.", "feedback": "La adaptación a un entorno cambiante no se resuelve únicamente repitiendo respuestas previamente memorizadas."},
+        {"value": "B", "label": "Fuerza máxima, velocidad gestual y flexibilidad.", "feedback": "Estas capacidades físicas pueden intervenir, pero no constituyen la combinación señalada para resolver situaciones cambiantes."},
+        {"value": "C", "label": "Percepción, toma de decisiones y respuestas motrices.", "feedback": "El tema 6 vincula la adaptación durante el juego con percibir la situación, decidir y producir una respuesta motriz."},
+        {"value": "D", "label": "Observación pasiva, descanso y reproducción verbal.", "feedback": "El estudiante es presentado como agente activo, por lo que una actuación pasiva no explica la resolución del problema."}
+      ]
+    },
+    {
+      "id": "q2",
+      "question": "Un docente utiliza un juego únicamente para animar al grupo antes de la actividad considerada realmente educativa. ¿Qué corrección coincide con el enfoque del tema 6?",
+      "type": "single_select",
+      "correctValues": ["B"],
+      "hint": "El material distingue entre usar el juego como simple estímulo y reconocer su función formativa.",
+      "options": [
+        {"value": "A", "label": "Mantenerlo como premio para no alterar la planificación académica.", "feedback": "Reducir el juego a premio o concesión devalúa sus aplicaciones educativas."},
+        {"value": "B", "label": "Tratarlo como un medio de educación general y formación personal.", "feedback": "El juego se plantea como medio educativo capaz de contribuir a la formación integral del estudiante."},
+        {"value": "C", "label": "Reservarlo para estudiantes que ya dominan las destrezas motrices.", "feedback": "El juego participa en el desarrollo de las destrezas y no se limita a quienes ya las dominan."},
+        {"value": "D", "label": "Usarlo solamente para comprobar quién obtiene mejores resultados.", "feedback": "La función educativa del juego supera la medición competitiva del rendimiento."}
+      ]
+    },
+    {
+      "id": "q3",
+      "question": "¿Qué actividad se aproxima más a un juego de fortalecimiento según la clasificación presentada?",
+      "type": "single_select",
+      "correctValues": ["D"],
+      "hint": "Esta categoría se orienta al desarrollo muscular y articular y suele incluir poca locomoción.",
+      "options": [
+        {"value": "A", "label": "Seguir una melodía cambiando el movimiento con cada compás.", "feedback": "La intervención del ritmo musical caracteriza a los juegos rítmicos."},
+        {"value": "B", "label": "Recorrer el patio alternando carrera, marcha y reptación.", "feedback": "La carrera y otros desplazamientos son propios de los juegos motores."},
+        {"value": "C", "label": "Reconocer objetos con los ojos cubiertos mediante el tacto.", "feedback": "La limitación de un sentido para estimular otro corresponde a los juegos sensoriales."},
+        {"value": "D", "label": "Mantener acciones musculares de poca locomoción para desarrollar fuerza.", "feedback": "Los juegos de fortalecimiento buscan desarrollo muscular y articular y generalmente son estáticos."}
+      ]
+    },
+    {
+      "id": "q4",
+      "question": "Un juego obliga a recuperar rápidamente la verticalidad después de cambios inesperados de apoyo. ¿Qué capacidad trabaja de manera más directa?",
+      "type": "single_select",
+      "correctValues": ["A"],
+      "hint": "El material relaciona las reacciones cinestésicas y el oído interno con esta capacidad.",
+      "options": [
+        {"value": "A", "label": "El equilibrio.", "feedback": "Cuestionar la verticalidad provoca respuestas inmediatas del sistema locomotor vinculadas con el equilibrio."},
+        {"value": "B", "label": "La fuerza explosiva.", "feedback": "La recuperación de la verticalidad no se explica principalmente por producir la máxima fuerza en el menor tiempo."},
+        {"value": "C", "label": "La resistencia aeróbica.", "feedback": "La resistencia aeróbica se relaciona con esfuerzos prolongados o intervalados, no con recuperar la estabilidad."},
+        {"value": "D", "label": "La táctica predeportiva.", "feedback": "La táctica predeportiva implica decisiones propias de un deporte, no el control de la verticalidad."}
+      ]
+    },
+    {
+      "id": "q5",
+      "question": "En una actividad, los movimientos cambian cuando varía el tempo de la música. ¿Cómo se clasifica principalmente el juego?",
+      "type": "single_select",
+      "correctValues": ["C"],
+      "hint": "La categoría se define por la intervención musical o por el tiempo que determina el movimiento.",
+      "options": [
+        {"value": "A", "label": "Juego sensorial.", "feedback": "Los juegos sensoriales se basan en estimular la percepción, frecuentemente limitando algún sentido."},
+        {"value": "B", "label": "Juego de equilibrio.", "feedback": "Los juegos de equilibrio desafían la verticalidad y las reacciones cinestésicas."},
+        {"value": "C", "label": "Juego rítmico.", "feedback": "Un juego es rítmico cuando interviene la música o el movimiento está determinado por el tiempo."},
+        {"value": "D", "label": "Juego predeportivo.", "feedback": "Un juego predeportivo aproxima a componentes técnicos y tácticos de un deporte concreto."}
+      ]
+    },
+    {
+      "id": "q6",
+      "question": "Los estudiantes construyen bolos con botellas usadas y después realizan un juego de precisión. Según el material empleado, ¿en qué categoría se ubica?",
+      "type": "single_select",
+      "correctValues": ["B"],
+      "hint": "La clasificación considera el origen y la reutilización del objeto empleado.",
+      "options": [
+        {"value": "A", "label": "Sin material.", "feedback": "La actividad sí utiliza objetos físicos para realizar el juego."},
+        {"value": "B", "label": "Con material reciclado o de desecho.", "feedback": "Las botellas usadas se reutilizan como recurso y corresponden a material reciclado o de desecho."},
+        {"value": "C", "label": "Con material propiamente lúdico.", "feedback": "Dados, fichas, tableros o cartas son ejemplos de material propiamente lúdico en la clasificación."},
+        {"value": "D", "label": "Con material deportivo convencional.", "feedback": "Pelotas, aros y sogas son ejemplos del material deportivo señalado, a diferencia de las botellas reutilizadas."}
+      ]
+    },
+    {
+      "id": "q7",
+      "question": "¿Cuál actividad pertenece a los juegos pasivos dentro de la clasificación según el grado de movimiento?",
+      "type": "single_select",
+      "correctValues": ["D"],
+      "hint": "Busca una actividad centrada en memoria o razonamiento, sin resolver el problema mediante desplazamiento corporal.",
+      "options": [
+        {"value": "A", "label": "Una persecución con cambios continuos de dirección.", "feedback": "La persecución exige resolver situaciones problemáticas mediante movimiento y corresponde a una actividad activa."},
+        {"value": "B", "label": "Una carrera de relevos entre pequeños grupos.", "feedback": "El relevo implica desplazamiento corporal y no responde a la categoría pasiva."},
+        {"value": "C", "label": "Un circuito de saltos y equilibrio por sectores.", "feedback": "El circuito requiere acciones motrices continuas, propias de un juego activo."},
+        {"value": "D", "label": "Un juego de memoria con fichas sobre un tablero.", "feedback": "Tablero, fichas, memoria e ingenio aparecen entre los juegos pasivos según el grado de movimiento."}
+      ]
+    },
+    {
+      "id": "q8",
+      "question": "¿Qué propuesta responde mejor a la recomendación del tema 6 para estudiantes de educación secundaria?",
+      "type": "single_select",
+      "correctValues": ["A"],
+      "hint": "En esta etapa se busca avanzar hacia experiencias con interacción entre compañeros y adversarios.",
+      "options": [
+        {"value": "A", "label": "Juegos de cooperación-oposición que introduzcan progresivamente lo predeportivo.", "feedback": "En secundaria se recomienda priorizar la cooperación-oposición como inicio de los juegos predeportivos."},
+        {"value": "B", "label": "Juegos exclusivamente sedentarios y sin reglas compartidas.", "feedback": "El material destaca la participación, las reglas y el desarrollo motor y social."},
+        {"value": "C", "label": "Actividades individuales idénticas a las de la primera infancia.", "feedback": "La selección debe adaptarse a la edad y características de los estudiantes."},
+        {"value": "D", "label": "Competencias centradas únicamente en seleccionar a los más hábiles.", "feedback": "La finalidad educativa no consiste en excluir ni seleccionar únicamente por rendimiento."}
+      ]
+    },
+    {
+      "id": "q9",
+      "question": "Antes de explicar un juego, el docente necesita formar equipos equilibrados porque conoce las capacidades del grupo. ¿Qué procedimiento descrito resulta más adecuado?",
+      "type": "single_select",
+      "correctValues": ["C"],
+      "hint": "Una de las formas de agrupación aprovecha directamente el conocimiento profesional del docente.",
+      "options": [
+        {"value": "A", "label": "Permitir que cada capitán elija libremente a sus compañeros.", "feedback": "La elección por capitanes es una opción descrita, pero no garantiza el equilibrio que puede construir el docente con su conocimiento del grupo."},
+        {"value": "B", "label": "Mantener siempre los mismos equipos durante todo el periodo.", "feedback": "El material no propone equipos permanentes como procedimiento general para equilibrar cada juego."},
+        {"value": "C", "label": "Agruparlos según el criterio del docente.", "feedback": "El criterio docente permite distribuir a los estudiantes deliberadamente para formar grupos equilibrados."},
+        {"value": "D", "label": "Ubicarlos únicamente por orden de llegada a la clase.", "feedback": "El orden de llegada no figura entre los métodos y no considera las características del grupo."}
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "¿Qué actuación resume mejor la dirección adecuada de un juego después de explicar sus reglas?",
+      "type": "single_select",
+      "correctValues": ["B"],
+      "hint": "La dirección no termina con dar la consigna; requiere acompañar la participación y la convivencia.",
+      "options": [
+        {"value": "A", "label": "Observar sin intervenir aunque varios estudiantes queden excluidos.", "feedback": "La dirección debe promover que todos intervengan activamente y no aceptar la exclusión pasivamente."},
+        {"value": "B", "label": "Animar la participación, comprobar las normas e involucrar a todo el grupo.", "feedback": "La dirección incluye alentar, verificar el respeto de las normas y favorecer la participación de todos."},
+        {"value": "C", "label": "Modificar continuamente las reglas para aumentar la dificultad.", "feedback": "Cambiar reglas sin necesidad puede afectar la comprensión y no resume las funciones centrales de la dirección."},
+        {"value": "D", "label": "Concentrarse únicamente en determinar al ganador final.", "feedback": "La finalidad formativa exige atender el proceso, la participación y el cumplimiento de normas."}
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "¿Qué significado del término griego gymnós explica el origen de la palabra gimnasia?",
+      "type": "single_select",
+      "correctValues": ["A"],
+      "hint": "El significado se relaciona con la forma en que los atletas se ejercitaban en la antigua Grecia.",
+      "options": [
+        {"value": "A", "label": "Desnudo.", "feedback": "Gymnós significa desnudo y alude a que los atletas griegos se ejercitaban sin ropa."},
+        {"value": "B", "label": "Competidor.", "feedback": "La competición formó parte de la práctica, pero no es la traducción indicada de gymnós."},
+        {"value": "C", "label": "Movimiento.", "feedback": "El movimiento es central en la gimnasia, pero no corresponde al significado etimológico presentado."},
+        {"value": "D", "label": "Fortaleza.", "feedback": "El fortalecimiento fue un objetivo de la gimnasia griega, pero no es la traducción de gymnós."}
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "Una secuencia corporal permite que un estudiante transmita una emoción y que sus compañeros interpreten el mensaje. ¿Qué práctica ejemplifica?",
+      "type": "single_select",
+      "correctValues": ["D"],
+      "hint": "La acción combina movimiento, expresión y comprensión de mensajes corporales.",
+      "options": [
+        {"value": "A", "label": "Acondicionamiento físico localizado.", "feedback": "El acondicionamiento localizado se orienta a capacidades o zonas corporales, no al intercambio de mensajes."},
+        {"value": "B", "label": "Preparación técnica en aparatos.", "feedback": "El dominio técnico de aparatos no constituye por sí mismo comunicación mediante lenguaje corporal."},
+        {"value": "C", "label": "Ejercicio de orden competitivo.", "feedback": "Los ejercicios de orden organizan y sincronizan al grupo, pero la situación descrita se centra en transmitir significado."},
+        {"value": "D", "label": "Práctica expresivo-comunicativa del movimiento.", "feedback": "Estas prácticas desarrollan la capacidad de enviar y descifrar mensajes mediante el lenguaje corporal."}
+      ]
+    },
+    {
+      "id": "q13",
+      "question": "Si el movimiento se utiliza deliberadamente para desarrollar la formación corporal y motora del estudiante, ¿qué enfoque representa?",
+      "type": "single_select",
+      "correctValues": ["B"],
+      "hint": "Distingue entre considerar el movimiento como fin, como medio formativo o como requisito externo.",
+      "options": [
+        {"value": "A", "label": "Movimiento como objeto en sí mismo.", "feedback": "Este enfoque dirige el trabajo hacia la eficiencia corporal o expresiva del propio movimiento."},
+        {"value": "B", "label": "Movimiento como herramienta.", "feedback": "El movimiento funciona como herramienta cuando se emplea para la formación corporal y motora."},
+        {"value": "C", "label": "Movimiento como exigencia externa.", "feedback": "La exigencia externa responde a aspectos técnicos aplicados al deporte, la danza, el trabajo u otras expectativas sociales."},
+        {"value": "D", "label": "Movimiento como actividad espontánea sin propósito.", "feedback": "La situación de aprendizaje descrita en el material es construida y orientada, no carente de propósito."}
+      ]
+    },
+    {
+      "id": "q14",
+      "question": "¿Qué cambio distingue a la gimnasia moderna que comenzó a configurarse hacia 1760?",
+      "type": "single_select",
+      "correctValues": ["C"],
+      "hint": "El cambio se relaciona con organizar la práctica y vincularla con el conocimiento científico y educativo.",
+      "options": [
+        {"value": "A", "label": "El abandono de los ejercicios físicos dentro de la educación.", "feedback": "La gimnasia moderna incorporó con mayor claridad la actividad física a la educación."},
+        {"value": "B", "label": "El retorno exclusivo a la preparación de guerreros.", "feedback": "La preparación guerrera caracteriza otros momentos históricos y no define la modernización señalada."},
+        {"value": "C", "label": "La diferenciación del concepto, la fundamentación científica y la ordenación de ejercicios.", "feedback": "Hacia 1760 la gimnasia se diferencia, busca bases científicas y organiza los ejercicios con intención educativa."},
+        {"value": "D", "label": "La eliminación de métodos y sistemas para privilegiar la improvisación.", "feedback": "La etapa moderna impulsó la sistematización y el desarrollo de métodos gimnásticos."}
+      ]
+    },
+    {
+      "id": "q15",
+      "question": "Un programa incluye barras horizontales, vigas, barras paralelas, caballo con tirantes y modalidades de salto. ¿Con qué escuela y figura se relaciona?",
+      "type": "single_select",
+      "correctValues": ["D"],
+      "hint": "El creador mencionado es conocido como el padre de la gimnasia y fundó una escuela en Alemania.",
+      "options": [
+        {"value": "A", "label": "Escuela sueca y Pehr Henrik Ling.", "feedback": "Ling desarrolló una propuesta anatómica, biológica y correctiva basada en ejercicios localizados."},
+        {"value": "B", "label": "Escuela francesa y Francisco Amorós.", "feedback": "La escuela francesa se caracteriza por movimientos naturales, globales y utilitarios."},
+        {"value": "C", "label": "Escuela inglesa y Thomas Arnold.", "feedback": "Arnold impulsó el deporte reglamentado, el fair play y la organización deportiva."},
+        {"value": "D", "label": "Escuela alemana y Friedrich Ludwig Jahn.", "feedback": "Jahn creó los aparatos y modalidades citados y es presentado como padre de la gimnasia."}
+      ]
+    },
+    {
+      "id": "q16",
+      "question": "Durante una ayuda gimnástica, el docente sostiene al estudiante en casi todo el movimiento aunque este podría ejecutar gran parte por sí solo. ¿Cuál es el principal problema?",
+      "type": "single_select",
+      "correctValues": ["A"],
+      "hint": "La ayuda debe permitir seguridad sin reemplazar el esfuerzo necesario para aprender.",
+      "options": [
+        {"value": "A", "label": "El estudiante deja de esforzarse lo suficiente para aprender autónomamente.", "feedback": "Cuando la ayuda es excesiva, el estudiante no realiza el esfuerzo necesario para aprender a ejecutar por sí mismo."},
+        {"value": "B", "label": "El estudiante desarrolla automáticamente una técnica más precisa.", "feedback": "La asistencia excesiva puede impedir el aprendizaje autónomo en lugar de garantizar precisión."},
+        {"value": "C", "label": "La capacidad vital aumenta por la intervención del ayudante.", "feedback": "La capacidad respiratoria no es el efecto analizado al regular la cantidad de ayuda gimnástica."},
+        {"value": "D", "label": "La rutina se convierte necesariamente en un ejercicio de orden.", "feedback": "La cantidad de asistencia no cambia la actividad a la categoría de ejercicio de orden."}
+      ]
+    },
+    {
+      "id": "q17",
+      "question": "¿Qué consecuencia puede producir una asistencia insuficiente durante el aprendizaje de un elemento gimnástico?",
+      "type": "single_select",
+      "correctValues": ["D"],
+      "hint": "Considera tanto la adquisición técnica como la protección del estudiante.",
+      "options": [
+        {"value": "A", "label": "Garantiza que el estudiante descubra la técnica correcta sin apoyo.", "feedback": "La falta de asistencia no garantiza el descubrimiento correcto y puede obstaculizar el aprendizaje."},
+        {"value": "B", "label": "Convierte el ejercicio en una práctica expresivo-comunicativa.", "feedback": "La cantidad de ayuda no determina que una práctica tenga finalidad expresiva o comunicativa."},
+        {"value": "C", "label": "Elimina la posibilidad de sobrecarga o accidente.", "feedback": "Una ayuda insuficiente puede aumentar el riesgo en vez de eliminarlo."},
+        {"value": "D", "label": "Puede impedir el aprendizaje técnico y comprometer la integridad física.", "feedback": "El material advierte que una asistencia insuficiente puede evitar que se aprenda la técnica y poner en riesgo al estudiante."}
+      ]
+    },
+    {
+      "id": "q18",
+      "question": "Un alumno pierde la forma técnica durante un ejercicio y existe riesgo de caída. ¿Qué prioridad debe guiar al ayudante?",
+      "type": "single_select",
+      "correctValues": ["B"],
+      "hint": "El material establece una jerarquía clara entre perfección técnica y bienestar del estudiante.",
+      "options": [
+        {"value": "A", "label": "Completar el elemento sin modificar la trayectoria prevista.", "feedback": "Mantener la ejecución a toda costa puede aumentar el riesgo cuando ya existe una pérdida de control."},
+        {"value": "B", "label": "Proteger la integridad física y psíquica antes que exigir una ejecución correcta.", "feedback": "La seguridad integral del alumno tiene prioridad sobre la corrección técnica del elemento."},
+        {"value": "C", "label": "Esperar a que finalice el movimiento para evaluar el resultado.", "feedback": "El ayudante debe anticipar fallos e intervenir cuando la seguridad lo requiere."},
+        {"value": "D", "label": "Aumentar la dificultad para que el alumno recupere la concentración.", "feedback": "Incrementar la dificultad ante una situación de riesgo contradice la prevención de accidentes."}
+      ]
+    },
+    {
+      "id": "q19",
+      "question": "¿Qué explicación refleja mejor cómo se mantiene el equilibrio durante los ejercicios gimnásticos?",
+      "type": "single_select",
+      "correctValues": ["C"],
+      "hint": "La respuesta integra información corporal interna con varios sentidos.",
+      "options": [
+        {"value": "A", "label": "Depende únicamente de observar un punto fijo con la vista.", "feedback": "La vista ayuda, pero el equilibrio no depende exclusivamente de la información visual."},
+        {"value": "B", "label": "Se produce solamente por la fuerza de los músculos extensores.", "feedback": "La fuerza contribuye al control postural, pero el proceso requiere integración sensorial y motriz."},
+        {"value": "C", "label": "Integra información de músculos, tendones y articulaciones con la vista, el oído y el tacto.", "feedback": "El sistema nervioso central integra la información corporal y la aportada por vista, oído y tacto para mantener el equilibrio."},
+        {"value": "D", "label": "Se conserva evitando cualquier ajuste muscular durante la postura.", "feedback": "Mantener el equilibrio requiere ajustes e integración de movimientos musculares, no ausencia de respuesta."}
+      ]
+    },
+    {
+      "id": "q20",
+      "question": "¿Qué posición inicial favorece especialmente los ejercicios respiratorios porque permite alcanzar mayor volumen de capacidad vital?",
+      "type": "single_select",
+      "correctValues": ["A"],
+      "hint": "Busca la postura que mantiene el tronco vertical y facilita la expansión respiratoria.",
+      "options": [
+        {"value": "A", "label": "De pie con el cuerpo erguido.", "feedback": "La posición de pie y erguida se presenta como especialmente favorable para alcanzar mayor volumen de capacidad vital."},
+        {"value": "B", "label": "Sentado con el tronco flexionado hacia delante.", "feedback": "La flexión del tronco no es la posición destacada por el material para maximizar la capacidad vital."},
+        {"value": "C", "label": "Acostado boca abajo con los brazos recogidos.", "feedback": "Esta postura no es la recomendada en el tema para los ejercicios respiratorios descritos."},
+        {"value": "D", "label": "En cuclillas con la espalda redondeada.", "feedback": "La postura en cuclillas y con flexión del tronco no corresponde a la posición inicial señalada."}
+      ]
+    }
+  ]
+}
