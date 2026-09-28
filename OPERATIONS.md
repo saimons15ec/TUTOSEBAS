@@ -13,7 +13,9 @@ La cuenta propietaria del Site es responsable de autorizar visitantes, revisar a
 5. Verificar que `counts` coincida con los bloques exportados y que `r2InventoryTruncated` sea `false`.
 6. No enviar el archivo por mensajería ni correo sin cifrado: contiene datos personales y académicos.
 
-El archivo exporta D1 y el inventario R2, no los binarios. Hasta definir un repositorio externo, la recuperación de archivos depende de que el bucket R2 original permanezca disponible.
+El archivo exporta D1 y el inventario R2, no los binarios. La copia externa completa se custodia manualmente en `TUTOSEBAS/Respaldos privados` del Drive principal e incluye el JSON vigente, los binarios R2 y `SHA256SUMS`. Después de cambios importantes se debe generar un paquete nuevo, verificar sus huellas y confirmar que la carpeta continúa sin compartir.
+
+El respaldo externo no está automatizado desde el Site: un administrador debe renovarlo y ensayar su lectura de forma periódica. Nunca se sube a GitHub.
 
 ## Retiro de materias
 
