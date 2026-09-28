@@ -1,6 +1,7 @@
 import { admin, bucket, context, email, parse, text, uid, type RecordRow } from "@/lib/uic";
 import { assertTrustedMutation, objectKeyMatches, publicIssue, readJsonObject } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
+import { gradeSimulatorAttempt, publicAttemptQuestions } from "@/lib/simulators";
 import { removeSubjectFromDistribution, sameSubject } from "@/lib/subjects";
 
 export const dynamic = "force-dynamic";
@@ -17,27 +18,6 @@ function secureShuffle<T>(values: T[]) {
     [shuffled[index], shuffled[target]] = [shuffled[target], shuffled[index]];
   }
   return shuffled;
-}
-
-function publicAttemptQuestions(data: Record<string, unknown>) {
-  const questions = Array.isArray(data.questions) ? data.questions : [];
-  return questions.flatMap((item) => {
-    if (!item || typeof item !== "object") return [];
-    const question = item as Record<string, unknown>;
-    const options = Array.isArray(question.options) ? question.options.map((option) => text(option, 500)).filter(Boolean) : [];
-    if (!text(question.questionId, 100) || options.length !== 4) return [];
-    return [{
-      questionId: text(question.questionId, 100),
-      subject: text(question.subject, 180),
-      topic: text(question.topic, 180),
-      format: text(question.format, 60),
-      prompt: text(question.prompt, 2000),
-      caseContext: text(question.caseContext, 4000) || null,
-      sourceMaterialTitle: text(question.sourceMaterialTitle, 180) || null,
-      sourceMaterialType: text(question.sourceMaterialType, 60) || null,
-      options,
-    }];
-  });
 }
 
 async function verifiedUpload(database: D1Database, key: string, kind: "material" | "review" | "submission" | "payment", groupId: string, uploadedBy?: string) {
@@ -596,49 +576,14 @@ export async function POST(request: Request) {
       const access = await authorizeStudentRecord(simulator.id, "simulator", simulatorData);
       if (access.error || access.groupId !== session.group_id) return fail(access.error || "El intento no pertenece a tu grupo actual.", access.status || 403);
 
-      const questions = Array.isArray(sessionData.questions) ? sessionData.questions.flatMap((item) => item && typeof item === "object" ? [item as Record<string, unknown>] : []) : [];
-      if (!questions.length) return fail("El intento no contiene preguntas válidas.", 409);
-      const rawAnswers = Array.isArray(body.answers) ? body.answers.slice(0, 400) : [];
-      const answerMap = new Map<string, number>();
-      for (const item of rawAnswers) {
-        if (!item || typeof item !== "object") continue;
-        const answer = item as Record<string, unknown>;
-        const questionId = text(answer.questionId, 100);
-        const selectedIndex = Number(answer.selectedIndex);
-        if (questionId && Number.isInteger(selectedIndex) && selectedIndex >= 0 && selectedIndex <= 3) answerMap.set(questionId, selectedIndex);
-      }
-      if (answerMap.size !== questions.length) return fail(`Debes responder las ${questions.length} preguntas antes de finalizar.`);
-      const review = questions.map((question) => {
-        const questionId = text(question.questionId, 100);
-        const selectedIndex = answerMap.get(questionId);
-        const correctIndex = Number(question.correctIndex);
-        const options = Array.isArray(question.options) ? question.options.map((option) => text(option, 500)).filter(Boolean) : [];
-        if (selectedIndex === undefined || options.length !== 4 || !Number.isInteger(correctIndex) || correctIndex < 0 || correctIndex > 3) throw new Error("El intento contiene una respuesta no válida.");
-        return {
-          questionId,
-          subject: text(question.subject, 180),
-          topic: text(question.topic, 180),
-          prompt: text(question.prompt, 2000),
-          caseContext: text(question.caseContext, 4000) || null,
-          sourceMaterialTitle: text(question.sourceMaterialTitle, 180) || null,
-          sourceMaterialType: text(question.sourceMaterialType, 60) || null,
-          options,
-          selectedIndex,
-          correctIndex,
-          correct: selectedIndex === correctIndex,
-          explanation: text(question.explanation, 2000),
-          source: text(question.source, 500),
-        };
-      });
-      const correct = review.filter((answer) => answer.correct).length;
-      const total = review.length;
-      const score = Math.round((correct / total) * 2000) / 100;
-      const passScore = Number(sessionData.passScore ?? simulatorData.passScore ?? 14);
+      const grading = gradeSimulatorAttempt(sessionData.questions, body.answers, sessionData.passScore ?? simulatorData.passScore ?? 14);
+      if (!grading.ok) return fail(grading.error, grading.status);
+      const { review, correct, total, score, passScore, passed, answers } = grading;
       const completedAt = new Date().toISOString();
       const startedAt = text(sessionData.startedAt, 40);
       const startedTime = Date.parse(startedAt);
       const durationSeconds = Number.isFinite(startedTime) ? Math.max(0, Math.min(Math.round((Date.now() - startedTime) / 1000), 14400)) : 0;
-      const attemptData = { simulatorId, simulatorTitle: simulator.title, area: text(sessionData.area, 40), subject: text(sessionData.subject, 180), period: text(sessionData.period, 40), distribution: sessionData.distribution, correct, total, score, passScore, passed: score >= passScore, answers: review.map(({ questionId, selectedIndex, correctIndex, correct, topic, subject }) => ({ questionId, selectedIndex, correctIndex, correct, topic, subject })), review, startedAt, completedAt, durationSeconds, studentName: profile.full_name, sessionId: session.id };
+      const attemptData = { simulatorId, simulatorTitle: simulator.title, area: text(sessionData.area, 40), subject: text(sessionData.subject, 180), period: text(sessionData.period, 40), distribution: sessionData.distribution, correct, total, score, passScore, passed, answers, review, startedAt, completedAt, durationSeconds, studentName: profile.full_name, sessionId: session.id };
       const completedSessionData = { ...sessionData, completedAttemptId, completedAt };
       await database.batch([
         database.prepare("INSERT OR IGNORE INTO records (id,kind,group_id,title,status,data_json,created_by) VALUES (?,'attempt',?,?,'completed',?,?)").bind(completedAttemptId, session.group_id, simulator.title, JSON.stringify(attemptData), profile.id),

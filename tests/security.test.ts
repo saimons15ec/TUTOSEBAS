@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { assertTrustedMutation, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
+import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
 import { removeSubjectFromDistribution, sameSubject, subjectKey } from "../lib/subjects.ts";
 import nextConfig from "../next.config.ts";
 
@@ -140,4 +141,40 @@ test("matches subjects consistently and removes them from final-exam distributio
     { subject: "Didáctica", count: 5 },
   ], "fundamentos de lengua");
   assert.deepEqual(result, { changed: true, distribution: [{ subject: "Didáctica", count: 5 }], count: 5 });
+});
+
+test("keeps simulator answer keys private until the attempt is finished", () => {
+  const questions = publicAttemptQuestions({ questions: [{
+    questionId: "q-1", subject: "Lengua", topic: "Lectura", format: "Selección directa", prompt: "Pregunta",
+    options: ["A", "B", "C", "D"], correctIndex: 2, explanation: "Secreto", source: "Fuente privada",
+  }] });
+  assert.equal(questions.length, 1);
+  assert.equal("correctIndex" in questions[0], false);
+  assert.equal("explanation" in questions[0], false);
+  assert.equal("source" in questions[0], false);
+});
+
+test("requires every simulator answer and calculates the score over 20", () => {
+  const questions = [
+    { questionId: "q-1", subject: "Lengua", options: ["A", "B", "C", "D"], correctIndex: 0 },
+    { questionId: "q-2", subject: "Lengua", options: ["A", "B", "C", "D"], correctIndex: 1 },
+    { questionId: "q-3", subject: "Lengua", options: ["A", "B", "C", "D"], correctIndex: 2 },
+    { questionId: "q-4", subject: "Lengua", options: ["A", "B", "C", "D"], correctIndex: 3 },
+  ];
+  const incomplete = gradeSimulatorAttempt(questions, [{ questionId: "q-1", selectedIndex: 0 }], 14);
+  assert.deepEqual(incomplete, { ok: false, error: "Debes responder las 4 preguntas antes de finalizar.", status: 400 });
+
+  const result = gradeSimulatorAttempt(questions, [
+    { questionId: "q-1", selectedIndex: 0 },
+    { questionId: "q-2", selectedIndex: 1 },
+    { questionId: "q-3", selectedIndex: 2 },
+    { questionId: "q-4", selectedIndex: 0 },
+  ], 14);
+  assert.equal(result.ok, true);
+  if (result.ok) {
+    assert.equal(result.correct, 3);
+    assert.equal(result.total, 4);
+    assert.equal(result.score, 15);
+    assert.equal(result.passed, true);
+  }
 });
