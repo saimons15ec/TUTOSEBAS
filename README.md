@@ -220,8 +220,8 @@ Nunca agregues contraseñas, tokens, claves de API ni credenciales reales al rep
 - Definir qué funciones de IA pertenecen a V1 y cuáles pasan a V1.1/V2.
 - Verificar flujos de profesor, estudiante y coordinador en escritorio y móvil.
 - Probar errores, expiración de planes, suspensión y permisos manuales.
-- Completar los controles operativos pendientes documentados en SECURITY.md: respaldo recuperable, entorno de pruebas, auditoría persistente y límite distribuido de frecuencia.
-- Completar pruebas de persistencia y recuperación.
+- Crear un entorno aislado para el ensayo integral de restauración; el respaldo recuperable, la auditoría persistente y los límites distribuidos ya están configurados.
+- Repetir periódicamente la verificación de integridad y completar una restauración integral fuera de producción.
 - Auditar archivos y clasificarlos como A, B, C o D.
 - Eliminar o sustituir datos personales incrustados antes del futuro respaldo en GitHub.
 - Preparar instrucciones externas verificadas; no asumir que una compilación de Sites equivale a un despliegue independiente.

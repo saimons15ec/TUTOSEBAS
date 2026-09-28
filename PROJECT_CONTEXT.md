@@ -1,6 +1,6 @@
 # TUTOSEBAS — Contexto del proyecto
 
-Última actualización de contexto: 2026-09-24.
+Última actualización de contexto: 2026-09-27.
 
 ## Para qué existe
 
@@ -10,9 +10,9 @@ Su propósito no es solo mostrar material. Debe permitir administrar quién acce
 
 ## Fase actual
 
-El proyecto está en desarrollo y pruebas dentro de ChatGPT Work / Sites. No se ha declarado V1, no se ha iniciado una auditoría formal y no existe autorización para exportar, conectar GitHub personal o migrar.
+El proyecto está en desarrollo y pruebas dentro de ChatGPT Work / Sites. No se ha declarado V1 ni se ha iniciado la migración independiente. La fase estructural de seguridad fue revisada y reforzada; el propietario autorizó una copia privada del código en `saimons15ec/TUTOSEBAS` y respaldos privados en el Drive principal de Saimons.
 
-La versión activa en Sites debe permanecer operativa mientras continúa el desarrollo. El repositorio interno de Sites conserva el historial de publicaciones, pero no sustituye el futuro respaldo independiente.
+La versión activa en Sites debe permanecer operativa mientras continúa el desarrollo. El repositorio interno de Sites conserva el historial de publicaciones y GitHub mantiene una copia privada del código; ninguno sustituye los datos vivos de D1 ni los binarios de R2.
 
 ## Usuarios
 
@@ -125,7 +125,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 ## Qué falta o sigue siendo parcial
 
 - confirmar mediante prueba real el flujo completo del nuevo simulador;
-- comprobar visualmente las dos áreas del nuevo organizador de simuladores sin publicar ni borrar contenido de prueba;
+- completar una prueba de extremo a extremo del simulador con una cuenta estudiantil real; la organización visual de Complexivos, Fin de Carrera, periodo vigente e histórico ya fue comprobada sin publicar ni borrar contenido;
 - repetir, si se considera necesario, el ciclo positivo de publicación y aprobación con Video; la vinculación pendiente y el ciclo completo con Infografía ya fueron comprobados;
 - llenar el alcance académico completo de Fin de Carrera;
 - completar rutas, preguntas y simuladores de Complexivos;
@@ -133,7 +133,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - acordar el alcance de IA para V1;
 - crear automatización de análisis de documentos solo cuando exista un proveedor autorizado;
 - definir si V1 necesita exportación de reportes o analíticas adicionales a los simuladores;
-- completar respaldo recuperable de D1/R2, entorno separado de pruebas, auditoría persistente y límite distribuido de frecuencia;
+- crear un entorno separado para ensayar una restauración completa; el paquete recuperable de D1/R2, la auditoría persistente y el límite distribuido de frecuencia ya están operativos;
 - ampliar las pruebas de autorización, móvil y errores a recorridos integrales de extremo a extremo;
 - auditar datos y archivos antes de exportar;
 - crear el paquete independiente y HANDOFF_TO_CHATGPT.md únicamente en la fase autorizada.
@@ -174,7 +174,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - Las semillas son idempotentes mediante identificadores estables e INSERT OR IGNORE.
 - El banco piloto también permanece como JSON dentro del código para poder crear una instalación nueva.
 - La futura portabilidad se resuelve mediante documentación y adaptadores, no desmontando anticipadamente lo que Sites ofrece.
-- La copia externa de binarios R2 y el Site privado de pruebas siguen pendientes de una decisión explícita de destino y acceso; no deben improvisarse en producción.
+- La copia externa completa se conserva en `TUTOSEBAS/Respaldos privados` del Drive principal: incluye el respaldo lógico vigente, 11 binarios R2 y huellas SHA-256 verificadas. El Site privado de restauración sigue pendiente y no debe improvisarse sobre producción.
 
 ## Decisiones de diseño
 

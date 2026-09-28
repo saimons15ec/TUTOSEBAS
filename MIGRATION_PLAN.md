@@ -1,10 +1,10 @@
 # TUTOSEBAS — Plan de migración y traspaso
 
-Estado: plan documentado, no iniciado.
+Estado: desarrollo previo a V1; copia privada de código y respaldos autorizada, migración independiente no iniciada.
 
 Documento rector: `INSTRUCCION_MAESTRA_TUTOSEBAS.md`. Ese archivo conserva de forma literal la instrucción maestra entregada por el propietario. Este plan la resume para el trabajo cotidiano, pero no la reemplaza.
 
-No existe autorización actual para exportar, conectar GitHub personal, crear un repositorio externo o migrar. Este documento conserva el procedimiento que deberá seguirse cuando V1 esté lista.
+El propietario autorizó sincronizar el código con el repositorio privado `saimons15ec/TUTOSEBAS` y custodiar respaldos privados en el Drive principal. Esta autorización no inicia la migración, no permite publicar datos privados en GitHub y no reemplaza la auditoría final previa al despliegue independiente.
 
 ## Secuencia obligatoria
 
@@ -28,9 +28,8 @@ TUTOSEBAS en Work/Sites
 
 ## Reglas mientras V1 no esté lista
 
-- No exportar.
-- No conectar GitHub personal.
-- No crear repositorios externos.
+- Mantener el repositorio privado autorizado como copia del código, sin D1, R2, respaldos ni documentos académicos privados.
+- No crear repositorios externos adicionales sin autorización.
 - No migrar.
 - No desmontar ni reconstruir TUTOSEBAS.
 - No borrar código, datos, archivos, servicios o configuración.
