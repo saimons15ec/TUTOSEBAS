@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, inspectUpload, isPlanActive, objectKeyMatches, PublicError, publicIssue, publicNoticeData, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
 import { readApiJson, SESSION_EXPIRED_MESSAGE } from "../lib/client-api.ts";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
@@ -139,10 +139,27 @@ test("applies security headers to the exact root route", async () => {
 });
 
 test("uses stricter distributed limits for sensitive actions", () => {
+  assert.deepEqual(rateLimitPolicy("platform:read"), { limit: 180, windowSeconds: 300 });
   assert.deepEqual(rateLimitPolicy("report_payment"), { limit: 5, windowSeconds: 3600 });
   assert.deepEqual(rateLimitPolicy("files:write"), { limit: 20, windowSeconds: 3600 });
   assert.deepEqual(rateLimitPolicy("security:reconcile-files"), { limit: 5, windowSeconds: 3600 });
   assert.deepEqual(rateLimitPolicy("ordinary_action"), { limit: 120, windowSeconds: 300 });
+});
+
+test("fails closed when a plan has no valid future expiration", () => {
+  const now = Date.parse("2026-09-28T00:00:00Z");
+  assert.equal(isPlanActive("active", "2026-09-29T00:00:00Z", now), true);
+  assert.equal(isPlanActive("active", "2026-09-27T00:00:00Z", now), false);
+  assert.equal(isPlanActive("active", "fecha-invalida", now), false);
+  assert.equal(isPlanActive("active", null, now), false);
+  assert.equal(isPlanActive("pending", "2026-09-29T00:00:00Z", now), false);
+});
+
+test("exposes only the current student's notice read state", () => {
+  const source = { body: "Aviso", readBy: ["student-1", "student-2"] };
+  assert.deepEqual(publicNoticeData(source, "student-1"), { body: "Aviso", read: true });
+  assert.deepEqual(publicNoticeData(source, "student-3"), { body: "Aviso", read: false });
+  assert.deepEqual(source.readBy, ["student-1", "student-2"]);
 });
 
 test("rejects requests beyond a distributed rate-limit window", async () => {

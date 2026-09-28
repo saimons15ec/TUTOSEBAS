@@ -13,6 +13,7 @@ export type AuditEvent = {
 export type RateLimitPolicy = { limit: number; windowSeconds: number };
 
 const RATE_POLICIES: Record<string, RateLimitPolicy> = {
+  "platform:read": { limit: 180, windowSeconds: 300 },
   "files:read": { limit: 180, windowSeconds: 300 },
   "files:write": { limit: 20, windowSeconds: 3600 },
   "security:backup": { limit: 3, windowSeconds: 3600 },

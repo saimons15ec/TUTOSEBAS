@@ -1,5 +1,5 @@
 import { admin, bucket, context, email, parse, text, uid, type RecordRow } from "@/lib/uic";
-import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, objectKeyMatches, publicIssue, readJsonObject, validPaymentAmount } from "@/lib/security";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, isPlanActive, objectKeyMatches, publicIssue, publicNoticeData, readJsonObject, validPaymentAmount } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "@/lib/simulators";
 import { removeSubjectFromDistribution, sameSubject } from "@/lib/subjects";
@@ -36,6 +36,7 @@ export async function GET() {
     const periodRow = await database.prepare("SELECT title FROM records WHERE kind='period' AND json_extract(data_json,'$.current')=1 LIMIT 1").first<{ title:string }>();
     const activePeriod = periodRow?.title || "2026-2027";
     if (profile.status !== "active") return Response.json({ authorized: false, profile, identity: user, records: [], profiles: [], activePeriod }, { headers: { "cache-control": "private, no-store" } });
+    await enforceRateLimit(database, profile.id, "platform:read");
     const recordResult = profile.role === "admin"
       ? await database.prepare("SELECT * FROM records ORDER BY updated_at DESC").all<RecordRow>()
       : await database.prepare("SELECT * FROM records WHERE (group_id IS NULL AND (status='published' OR (kind='question' AND status='approved'))) OR (group_id=? AND (kind='submission' OR (kind='payment' AND ?='coordinator') OR status='published' OR (kind='attempt' AND created_by=?))) OR (kind='group' AND id=?) ORDER BY updated_at DESC").bind(profile.group_id ?? "none", profile.member_role, profile.id, profile.group_id ?? "none").all<RecordRow>();
@@ -47,8 +48,7 @@ export async function GET() {
       const group = accessibleRecords.find((row) => row.kind === "group" && row.id === profile.group_id);
       const groupData = group?.data ?? {};
       const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
-      const endsAt = typeof groupData.endsAt === "string" ? Date.parse(groupData.endsAt) : Number.NaN;
-      const planActive = groupData.planStatus === "active" && (Number.isNaN(endsAt) || endsAt > Date.now());
+      const planActive = isPlanActive(groupData.planStatus, groupData.endsAt);
       const ranks: Record<string, number> = { "Sin plan": 0, Bronce: 1, Plata: 2, Gold: 3 };
       const currentRank = ranks[String(groupData.plan ?? "Sin plan")] ?? 0;
       accessibleRecords = accessibleRecords.filter((row) => {
@@ -60,6 +60,7 @@ export async function GET() {
         return manuallyAllowed || (planActive && currentRank >= requiredRank);
       });
       accessibleRecords = accessibleRecords.map((row) => {
+        if (row.kind === "notice") return { ...row, data: publicNoticeData(row.data, profile.id) };
         if (row.kind !== "question") return row;
         const { correctIndex: _correctIndex, explanation: _explanation, ...safeData } = row.data;
         void _correctIndex;
@@ -152,8 +153,7 @@ export async function POST(request: Request) {
       const groupData = parse<Record<string, unknown>>(group.data_json, {});
       const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
       const ranks: Record<string, number> = { "Sin plan": 0, Bronce: 1, Plata: 2, Gold: 3 };
-      const endsAt = typeof groupData.endsAt === "string" ? Date.parse(groupData.endsAt) : Number.NaN;
-      const planActive = groupData.planStatus === "active" && (Number.isNaN(endsAt) || endsAt > Date.now());
+      const planActive = isPlanActive(groupData.planStatus, groupData.endsAt);
       const requiredPlan = text(data.plan, 20) || (kind === "simulator" ? "Plata" : "Bronce");
       const planAllowed = planActive && (ranks[String(groupData.plan ?? "Sin plan")] ?? 0) >= (ranks[requiredPlan] ?? 1);
       const manuallyAllowed = permissions.includes("all") || permissions.includes(recordId) || permissions.includes(kind) || permissions.includes(text(data.area, 40));
@@ -394,7 +394,7 @@ export async function POST(request: Request) {
 
     if (action === "submit_work") {
       assertActiveStudent(profile.role, profile.status);
-      if (!profile.group_id) return fail("Debes pertenecer a un grupo."); const group = await database.prepare("SELECT * FROM records WHERE id=? AND kind='group'").bind(profile.group_id).first<RecordRow>(); if (!group) return fail("El grupo no está disponible."); const groupData = parse<Record<string, unknown>>(group.data_json, {}); const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : []; const expires = typeof groupData.endsAt === "string" ? Date.parse(groupData.endsAt) : Number.NaN; const activePlan = groupData.planStatus === "active" && (Number.isNaN(expires) || expires > Date.now()); const plan = String(groupData.plan ?? "Sin plan"); if (!(permissions.includes("all") || permissions.includes("submission") || (activePlan && ["Plata","Gold"].includes(plan)))) return fail("Tu plan no incluye revisión de trabajos.", 403); const title = text(body.title, 180); if (!title) return fail("Escribe el nombre del trabajo."); const workType = text(body.workType, 40); if (!['planning','case-study'].includes(workType)) return fail("Tipo de trabajo no válido."); const fileKey = text(body.fileKey, 400); if (!(await verifiedUpload(database, fileKey, "submission", profile.group_id, profile.id))) return fail("Adjunta un archivo válido del grupo."); const existing = await database.prepare("SELECT * FROM records WHERE kind='submission' AND group_id=? AND title=? AND status NOT IN ('finalized','delivered') ORDER BY created_at DESC LIMIT 1").bind(profile.group_id, title).first<RecordRow>(); const previousData = existing ? parse<Record<string, unknown>>(existing.data_json, {}) : {}; const revisions = existing ? Number(previousData.revisions ?? 0) + 1 : 0; const maxRevisions = permissions.includes("all") ? 99 : plan === "Gold" ? 3 : 1; if (existing && revisions > maxRevisions) return fail(`Tu plan admite hasta ${maxRevisions} corrección(es) por proyecto.`, 403); const payload = { workType, notes: text(body.notes, 1600), fileKey, fileName: text(body.fileName, 240) || null, submittedBy: profile.id, submittedByName: profile.full_name, revisions, reviewNotes: existing ? previousData.reviewNotes ?? "" : "" };
+      if (!profile.group_id) return fail("Debes pertenecer a un grupo."); const group = await database.prepare("SELECT * FROM records WHERE id=? AND kind='group'").bind(profile.group_id).first<RecordRow>(); if (!group) return fail("El grupo no está disponible."); const groupData = parse<Record<string, unknown>>(group.data_json, {}); const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : []; const activePlan = isPlanActive(groupData.planStatus, groupData.endsAt); const plan = String(groupData.plan ?? "Sin plan"); if (!(permissions.includes("all") || permissions.includes("submission") || (activePlan && ["Plata","Gold"].includes(plan)))) return fail("Tu plan no incluye revisión de trabajos.", 403); const title = text(body.title, 180); if (!title) return fail("Escribe el nombre del trabajo."); const workType = text(body.workType, 40); if (!['planning','case-study'].includes(workType)) return fail("Tipo de trabajo no válido."); const fileKey = text(body.fileKey, 400); if (!(await verifiedUpload(database, fileKey, "submission", profile.group_id, profile.id))) return fail("Adjunta un archivo válido del grupo."); const existing = await database.prepare("SELECT * FROM records WHERE kind='submission' AND group_id=? AND title=? AND status NOT IN ('finalized','delivered') ORDER BY created_at DESC LIMIT 1").bind(profile.group_id, title).first<RecordRow>(); const previousData = existing ? parse<Record<string, unknown>>(existing.data_json, {}) : {}; const revisions = existing ? Number(previousData.revisions ?? 0) + 1 : 0; const maxRevisions = permissions.includes("all") ? 99 : plan === "Gold" ? 3 : 1; if (existing && revisions > maxRevisions) return fail(`Tu plan admite hasta ${maxRevisions} corrección(es) por proyecto.`, 403); const payload = { workType, notes: text(body.notes, 1600), fileKey, fileName: text(body.fileName, 240) || null, submittedBy: profile.id, submittedByName: profile.full_name, revisions, reviewNotes: existing ? previousData.reviewNotes ?? "" : "" };
       if (existing) { const previous = parse<Record<string, unknown>>(existing.data_json, {}); await database.prepare("UPDATE records SET status='new_version',data_json=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(JSON.stringify({ ...previous, ...payload }), existing.id).run(); await audit("work_resubmitted", "submission", existing.id, { revisions }); return Response.json({ ok: true, id: existing.id }); }
       const id = uid("work"); await database.prepare("INSERT INTO records (id,kind,group_id,title,status,data_json,created_by) VALUES (?,'submission',?,?,'received',?,?)").bind(id, profile.group_id, title, JSON.stringify(payload), profile.id).run(); await audit("work_submitted", "submission", id); return Response.json({ ok: true, id });
     }

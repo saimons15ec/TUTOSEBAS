@@ -95,6 +95,8 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - aplicación responsive con navegación separada de profesor y estudiante;
 - autenticación administrada por Sites y perfil interno;
 - autorización por rol, estado, grupo, plan y permiso;
+- vencimiento de planes en modo seguro: una fecha ausente, inválida o vencida no concede acceso;
+- avisos estudiantiles sin exponer la lista interna de otros perfiles que ya los leyeron;
 - separación explícita entre acciones administrativas y estudiantiles, incluso cuando un perfil conserva asociaciones históricas de grupo;
 - rol administrativo efectivo derivado de `ADMIN_EMAILS` en cada solicitud;
 - D1 con perfiles y registros;

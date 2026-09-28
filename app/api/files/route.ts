@@ -1,5 +1,5 @@
 import { bucket, context, parse, text } from "@/lib/uic";
-import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
+import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, isPlanActive, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, registerFile, sha256Hex, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
 
 export const dynamic = "force-dynamic";
@@ -105,8 +105,7 @@ export async function GET(request: Request) {
         const groupData = group ? parse<Record<string, unknown>>(group.data_json, {}) : {};
         const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
         const ranks: Record<string, number> = { "Sin plan": 0, Bronce: 1, Plata: 2, Gold: 3 };
-        const expires = typeof groupData.endsAt === "string" ? Date.parse(groupData.endsAt) : Number.NaN;
-        const planActive = groupData.planStatus === "active" && (Number.isNaN(expires) || expires > Date.now());
+        const planActive = isPlanActive(groupData.planStatus, groupData.endsAt);
         const allowed = permissions.includes("all") || permissions.includes(resource.id) || permissions.includes(resource.kind) || permissions.includes(String(resourceData.area ?? "")) || (planActive && (ranks[String(groupData.plan ?? "Sin plan")] ?? 0) >= (ranks[String(resourceData.plan ?? "Bronce")] ?? 1));
         if (!allowed) return fail("Tu plan no incluye este archivo.", 403);
       } else {

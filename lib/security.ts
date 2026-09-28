@@ -29,6 +29,17 @@ export function assertActiveStudent(role: string, status: string) {
   }
 }
 
+export function isPlanActive(status: unknown, endsAt: unknown, now = Date.now()) {
+  if (status !== "active" || typeof endsAt !== "string") return false;
+  const expiresAt = Date.parse(endsAt);
+  return Number.isFinite(expiresAt) && expiresAt > now;
+}
+
+export function publicNoticeData(value: Record<string, unknown>, profileId: string) {
+  const { readBy, ...safe } = value;
+  return { ...safe, read: Array.isArray(readBy) && readBy.map(String).includes(profileId) };
+}
+
 export function validPaymentAmount(value: unknown) {
   const amount = Number(value);
   return Number.isFinite(amount) && amount > 0 && amount <= 10_000 && Math.abs(amount * 100 - Math.round(amount * 100)) < 1e-8;

@@ -19,6 +19,8 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Las cargas tienen límite de 25 MiB, extensión permitida, firma binaria, nombre normalizado y tipo MIME calculado por el servidor.
 - Se rechazan ejecutables, documentos Office con macros/objetos activos y PDF con acciones o adjuntos activos detectables.
 - Las descargas de estudiantes exigen una referencia exacta en D1 y coincidencia exacta de grupo, además del plan aplicable.
+- Un plan solo habilita contenido cuando su estado es activo y tiene una fecha de vencimiento válida en el futuro; los datos incompletos o inválidos se rechazan por defecto.
+- Cada estudiante recibe únicamente su propio estado de lectura de avisos; la lista interna de perfiles que leyeron un aviso no se expone a otros estudiantes.
 - Los comprobantes de pago y sus archivos solo se entregan al administrador o al coordinador del grupo.
 - Las acciones de estudiante rechazan explícitamente cuentas administrativas, incluso si el perfil conservó una asociación histórica con un grupo.
 - Los valores de pago se limitan a USD 10.000 y un máximo de dos decimales antes de registrar el comprobante.
@@ -27,7 +29,7 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Cada archivo nuevo se registra en D1 con propietario, grupo, tamaño, tipo y huella SHA-256; si el registro falla, la carga R2 se revierte.
 - Las descargas exigen que ese registro D1 exista, permanezca activo y coincida exactamente con tipo y grupo; los objetos huérfanos o inválidos quedan fuera del acceso.
 - Los documentos académicos privados se mantienen fuera del repositorio de código y se conservan únicamente en almacenamientos autorizados.
-- Las rutas sensibles usan límites distribuidos almacenados en D1, por cuenta, acción y ventana de tiempo.
+- Las rutas sensibles y la lectura integral del panel usan límites distribuidos almacenados en D1, por cuenta, acción y ventana de tiempo.
 - Las acciones críticas se registran en `security_audit`; los triggers de D1 impiden editar eventos y protegen su eliminación durante 365 días.
 - El administrador puede descargar un respaldo lógico de D1 y del inventario R2 desde Configuración. La descarga está limitada y auditada.
 - Las respuestas incluyen CSP, HSTS, protección contra MIME sniffing, framing y permisos innecesarios del navegador.
