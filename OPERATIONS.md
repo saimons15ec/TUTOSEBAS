@@ -19,6 +19,10 @@ El archivo exporta D1 y el inventario R2, no los binarios. Hasta definir un repo
 
 La acción **Quitar materia** no elimina datos físicos. Archiva la materia y sus contenidos, conserva intentos, auditoría y archivos, y devuelve a borrador los exámenes finales cuya distribución haya sido ajustada. Para volver a usarla, añade la materia nuevamente y revisa o publica sus contenidos.
 
+## Inventario de archivos
+
+La opción **Verificar inventario** de Configuración compara R2 con los registros académicos. Solo registra objetos vinculados que superan la validación vigente; los archivos huérfanos o con contenido activo permanecen bloqueados. La operación está limitada y deja evidencia en la auditoría de seguridad.
+
 ## Incidentes
 
 ### Prioridad alta

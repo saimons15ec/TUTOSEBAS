@@ -46,3 +46,6 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Los documentos académicos privados viven en R2/Drive, nunca en el código fuente.
+/private-assets/

@@ -16,6 +16,7 @@ const RATE_POLICIES: Record<string, RateLimitPolicy> = {
   "files:read": { limit: 180, windowSeconds: 300 },
   "files:write": { limit: 20, windowSeconds: 3600 },
   "security:backup": { limit: 3, windowSeconds: 3600 },
+  "security:reconcile-files": { limit: 5, windowSeconds: 3600 },
   report_payment: { limit: 5, windowSeconds: 3600 },
   submit_work: { limit: 10, windowSeconds: 3600 },
   start_simulator_attempt: { limit: 30, windowSeconds: 600 },

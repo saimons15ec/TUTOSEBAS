@@ -92,7 +92,7 @@ export async function GET(request: Request) {
     const parsedKey = storedObjectKey(key);
     if (!parsedKey) return fail("Archivo no válido.");
     const registered = await verifiedRegisteredFile(current.database, key, parsedKey.kind, parsedKey.groupId);
-    if (registered === false) return fail("El registro de seguridad del archivo no es válido.", 403);
+    if (!registered) return fail("El registro de seguridad del archivo no es válido.", 403);
 
     if (current.profile.role !== "admin") {
       if (!current.profile.group_id) return fail("No tienes permiso para abrir este archivo.", 403);

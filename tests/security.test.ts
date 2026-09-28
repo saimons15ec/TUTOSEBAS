@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { assertTrustedMutation, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey } from "../lib/security.ts";
-import { enforceRateLimit, rateLimitPolicy, sha256Hex } from "../lib/security-storage.ts";
+import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
 import { removeSubjectFromDistribution, sameSubject, subjectKey } from "../lib/subjects.ts";
 import nextConfig from "../next.config.ts";
 
@@ -39,6 +39,22 @@ test("checks object keys by exact type and group", () => {
   assert.equal(objectKeyMatches(objectKey, "submission", "grp_demo"), true);
   assert.equal(objectKeyMatches(objectKey, "submission", "grp_other"), false);
   assert.equal(storedObjectKey("submissions/grp_demo/../../secret"), null);
+});
+
+test("requires an active exact registry entry before serving a file", async () => {
+  let row: { kind: string; group_id: string; owner_id: string; status: string } | null = null;
+  const database = {
+    prepare: () => ({
+      bind: () => ({ first: async () => row }),
+    }),
+  } as unknown as D1Database;
+
+  assert.equal(await verifiedRegisteredFile(database, objectKey, "submission", "grp_demo"), null);
+  row = { kind: "submission", group_id: "grp_demo", owner_id: "profile-1", status: "active" };
+  assert.equal(await verifiedRegisteredFile(database, objectKey, "submission", "grp_demo"), true);
+  assert.equal(await verifiedRegisteredFile(database, objectKey, "submission", "grp_other"), false);
+  row.status = "archived";
+  assert.equal(await verifiedRegisteredFile(database, objectKey, "submission", "grp_demo"), false);
 });
 
 test("validates file signatures and blocks active content", () => {
@@ -93,6 +109,7 @@ test("applies security headers to the exact root route", async () => {
 test("uses stricter distributed limits for sensitive actions", () => {
   assert.deepEqual(rateLimitPolicy("report_payment"), { limit: 5, windowSeconds: 3600 });
   assert.deepEqual(rateLimitPolicy("files:write"), { limit: 20, windowSeconds: 3600 });
+  assert.deepEqual(rateLimitPolicy("security:reconcile-files"), { limit: 5, windowSeconds: 3600 });
   assert.deepEqual(rateLimitPolicy("ordinary_action"), { limit: 120, windowSeconds: 300 });
 });
 

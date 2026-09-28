@@ -20,6 +20,8 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Se rechazan ejecutables, documentos Office con macros/objetos activos y PDF con acciones o adjuntos activos detectables.
 - Las descargas de estudiantes exigen una referencia exacta en D1 y coincidencia exacta de grupo, además del plan aplicable.
 - Cada archivo nuevo se registra en D1 con propietario, grupo, tamaño, tipo y huella SHA-256; si el registro falla, la carga R2 se revierte.
+- Las descargas exigen que ese registro D1 exista, permanezca activo y coincida exactamente con tipo y grupo; los objetos huérfanos o inválidos quedan fuera del acceso.
+- Los documentos académicos privados se mantienen fuera del repositorio de código y se conservan únicamente en almacenamientos autorizados.
 - Las rutas sensibles usan límites distribuidos almacenados en D1, por cuenta, acción y ventana de tiempo.
 - Las acciones críticas se registran en `security_audit`; los triggers de D1 impiden editar eventos y protegen su eliminación durante 365 días.
 - El administrador puede descargar un respaldo lógico de D1 y del inventario R2 desde Configuración. La descarga está limitada y auditada.
