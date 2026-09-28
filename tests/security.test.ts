@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey } from "../lib/security.ts";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
+import { readApiJson, SESSION_EXPIRED_MESSAGE } from "../lib/client-api.ts";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
 import { removeSubjectFromDistribution, sameSubject, subjectKey } from "../lib/subjects.ts";
 import nextConfig from "../next.config.ts";
@@ -101,6 +102,29 @@ test("limits payment records to administrators and group coordinators", () => {
   assert.equal(canAccessPaymentRecord("student", "coordinator"), true);
   assert.equal(canAccessPaymentRecord("student", "member"), false);
   assert.equal(canAccessPaymentRecord("student", ""), false);
+});
+
+test("keeps student-only actions separate from administrator accounts", () => {
+  assert.doesNotThrow(() => assertActiveStudent("student", "active"));
+  assert.throws(() => assertActiveStudent("admin", "active"), (error) => error instanceof PublicError && error.status === 403);
+  assert.throws(() => assertActiveStudent("student", "suspended"), (error) => error instanceof PublicError && error.status === 403);
+});
+
+test("validates bounded payment amounts with at most two decimals", () => {
+  assert.equal(validPaymentAmount(25.5), true);
+  assert.equal(validPaymentAmount(10_000), true);
+  assert.equal(validPaymentAmount(0), false);
+  assert.equal(validPaymentAmount(10_000.01), false);
+  assert.equal(validPaymentAmount(12.345), false);
+});
+
+test("turns expired or malformed API responses into safe messages", async () => {
+  const valid = new Response(JSON.stringify({ ok: true }), { status: 200, headers: { "content-type": "application/json" } });
+  assert.deepEqual(await readApiJson(valid, "Error controlado."), { ok: true });
+  const expired = new Response("<html>Sign in</html>", { status: 401, headers: { "content-type": "text/html" } });
+  await assert.rejects(() => readApiJson(expired, "Error controlado."), (error: unknown) => error instanceof Error && error.message === SESSION_EXPIRED_MESSAGE);
+  const malformed = new Response("respuesta inválida", { status: 500 });
+  await assert.rejects(() => readApiJson(malformed, "Error controlado."), (error: unknown) => error instanceof Error && error.message === "Error controlado.");
 });
 
 test("applies security headers to the exact root route", async () => {

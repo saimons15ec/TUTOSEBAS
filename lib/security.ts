@@ -23,6 +23,17 @@ export function canAccessPaymentRecord(role: string, memberRole: string) {
   return role === "admin" || (role === "student" && memberRole === "coordinator");
 }
 
+export function assertActiveStudent(role: string, status: string) {
+  if (role !== "student" || status !== "active") {
+    throw new PublicError("Esta acción requiere una cuenta estudiantil activa.", 403);
+  }
+}
+
+export function validPaymentAmount(value: unknown) {
+  const amount = Number(value);
+  return Number.isFinite(amount) && amount > 0 && amount <= 10_000 && Math.abs(amount * 100 - Math.round(amount * 100)) < 1e-8;
+}
+
 export function publicIssue(error: unknown, fallback: string) {
   if (error instanceof PublicError) return { message: error.message, status: error.status };
   const message = error instanceof Error ? error.message : "";

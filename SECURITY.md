@@ -20,7 +20,10 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Se rechazan ejecutables, documentos Office con macros/objetos activos y PDF con acciones o adjuntos activos detectables.
 - Las descargas de estudiantes exigen una referencia exacta en D1 y coincidencia exacta de grupo, además del plan aplicable.
 - Los comprobantes de pago y sus archivos solo se entregan al administrador o al coordinador del grupo.
+- Las acciones de estudiante rechazan explícitamente cuentas administrativas, incluso si el perfil conservó una asociación histórica con un grupo.
+- Los valores de pago se limitan a USD 10.000 y un máximo de dos decimales antes de registrar el comprobante.
 - Las respuestas autenticadas y las descargas privadas usan `Cache-Control: private, no-store` para evitar que datos académicos o financieros permanezcan en cachés compartidas.
+- Las respuestas de sesión vencida o no JSON se convierten en mensajes controlados y ofrecen volver a iniciar sesión sin mostrar errores técnicos.
 - Cada archivo nuevo se registra en D1 con propietario, grupo, tamaño, tipo y huella SHA-256; si el registro falla, la carga R2 se revierte.
 - Las descargas exigen que ese registro D1 exista, permanezca activo y coincida exactamente con tipo y grupo; los objetos huérfanos o inválidos quedan fuera del acceso.
 - Los documentos académicos privados se mantienen fuera del repositorio de código y se conservan únicamente en almacenamientos autorizados.

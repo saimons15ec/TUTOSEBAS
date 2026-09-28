@@ -95,6 +95,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - aplicación responsive con navegación separada de profesor y estudiante;
 - autenticación administrada por Sites y perfil interno;
 - autorización por rol, estado, grupo, plan y permiso;
+- separación explícita entre acciones administrativas y estudiantiles, incluso cuando un perfil conserva asociaciones históricas de grupo;
 - rol administrativo efectivo derivado de `ADMIN_EMAILS` en cada solicitud;
 - D1 con perfiles y registros;
 - R2 con carga validada por firma y descarga enlazada a un registro y grupo exactos;
@@ -134,7 +135,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - crear automatización de análisis de documentos solo cuando exista un proveedor autorizado;
 - definir si V1 necesita exportación de reportes o analíticas adicionales a los simuladores;
 - crear un entorno separado para ensayar una restauración completa; el paquete recuperable de D1/R2, la auditoría persistente y el límite distribuido de frecuencia ya están operativos;
-- ampliar las pruebas de autorización, móvil y errores a recorridos integrales de extremo a extremo;
+- completar con una cuenta estudiantil real los recorridos integrales de autorización, móvil y recuperación de sesión; las validaciones automatizadas y los ajustes responsive ya están cubiertos;
 - auditar datos y archivos antes de exportar;
 - crear el paquete independiente y HANDOFF_TO_CHATGPT.md únicamente en la fase autorizada.
 
