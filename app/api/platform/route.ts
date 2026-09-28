@@ -1,5 +1,5 @@
 import { admin, bucket, context, email, parse, text, uid, type RecordRow } from "@/lib/uic";
-import { assertTrustedMutation, objectKeyMatches, publicIssue, readJsonObject } from "@/lib/security";
+import { assertTrustedMutation, canAccessPaymentRecord, objectKeyMatches, publicIssue, readJsonObject } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "@/lib/simulators";
 import { removeSubjectFromDistribution, sameSubject } from "@/lib/subjects";
@@ -35,10 +35,10 @@ export async function GET() {
     const { database, profile, user } = current;
     const periodRow = await database.prepare("SELECT title FROM records WHERE kind='period' AND json_extract(data_json,'$.current')=1 LIMIT 1").first<{ title:string }>();
     const activePeriod = periodRow?.title || "2026-2027";
-    if (profile.status !== "active") return Response.json({ authorized: false, profile, identity: user, records: [], profiles: [], activePeriod });
+    if (profile.status !== "active") return Response.json({ authorized: false, profile, identity: user, records: [], profiles: [], activePeriod }, { headers: { "cache-control": "private, no-store" } });
     const recordResult = profile.role === "admin"
       ? await database.prepare("SELECT * FROM records ORDER BY updated_at DESC").all<RecordRow>()
-      : await database.prepare("SELECT * FROM records WHERE (group_id IS NULL AND (status='published' OR (kind='question' AND status='approved'))) OR (group_id=? AND (kind IN ('submission','payment') OR status='published' OR (kind='attempt' AND created_by=?))) OR (kind='group' AND id=?) ORDER BY updated_at DESC").bind(profile.group_id ?? "none", profile.id, profile.group_id ?? "none").all<RecordRow>();
+      : await database.prepare("SELECT * FROM records WHERE (group_id IS NULL AND (status='published' OR (kind='question' AND status='approved'))) OR (group_id=? AND (kind='submission' OR (kind='payment' AND ?='coordinator') OR status='published' OR (kind='attempt' AND created_by=?))) OR (kind='group' AND id=?) ORDER BY updated_at DESC").bind(profile.group_id ?? "none", profile.member_role, profile.id, profile.group_id ?? "none").all<RecordRow>();
     const profiles = profile.role === "admin"
       ? (await database.prepare("SELECT * FROM profiles ORDER BY created_at DESC").all()).results
       : profile.group_id ? (await database.prepare("SELECT id,email,full_name,status,group_id,member_role FROM profiles WHERE group_id=? ORDER BY CASE member_role WHEN 'coordinator' THEN 0 ELSE 1 END,full_name").bind(profile.group_id).all()).results : [];
@@ -67,7 +67,8 @@ export async function GET() {
         return { ...row, data: safeData };
       });
     }
-    return Response.json({ authorized: true, identity: user, profile, records: accessibleRecords, profiles, activePeriod });
+    const records = accessibleRecords.filter((row) => row.kind !== "payment" || canAccessPaymentRecord(profile.role, profile.member_role));
+    return Response.json({ authorized: true, identity: user, profile, records, profiles, activePeriod }, { headers: { "cache-control": "private, no-store" } });
   } catch (error) { const issue = publicIssue(error, "No se pudo abrir la plataforma."); return fail(issue.message, issue.status); }
 }
 

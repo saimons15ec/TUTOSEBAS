@@ -1,5 +1,5 @@
 import { bucket, context, parse, text } from "@/lib/uic";
-import { assertTrustedMutation, inspectUpload, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
+import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, registerFile, sha256Hex, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
 
 export const dynamic = "force-dynamic";
@@ -96,6 +96,7 @@ export async function GET(request: Request) {
 
     if (current.profile.role !== "admin") {
       if (!current.profile.group_id) return fail("No tienes permiso para abrir este archivo.", 403);
+      if (parsedKey.kind === "payment" && !canAccessPaymentRecord(current.profile.role, current.profile.member_role)) return fail("Solo el coordinador puede abrir comprobantes de pago.", 403);
       if (parsedKey.kind === "material" && objectKeyMatches(key, "material", "shared")) {
         const resource = await current.database.prepare("SELECT id,kind,status,data_json FROM records WHERE status='published' AND json_extract(data_json,'$.fileKey')=? LIMIT 1").bind(key).first<{ id: string; kind: string; status: string; data_json: string }>();
         if (!resource) return fail("No tienes permiso para abrir este archivo.", 403);
@@ -126,7 +127,7 @@ export async function GET(request: Request) {
     const headers = new Headers();
     object.writeHttpMetadata(headers);
     headers.set("etag", object.httpEtag);
-    headers.set("cache-control", "private, max-age=300");
+    headers.set("cache-control", "private, no-store");
     headers.set("x-content-type-options", "nosniff");
     return new Response(object.body, { headers });
   } catch (error) {

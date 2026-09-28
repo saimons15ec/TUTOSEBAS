@@ -19,6 +19,10 @@ export function resolveProfileAccess(admins: ReadonlySet<string>, normalizedEmai
   return { role, status };
 }
 
+export function canAccessPaymentRecord(role: string, memberRole: string) {
+  return role === "admin" || (role === "student" && memberRole === "coordinator");
+}
+
 export function publicIssue(error: unknown, fallback: string) {
   if (error instanceof PublicError) return { message: error.message, status: error.status };
   const message = error instanceof Error ? error.message : "";

@@ -19,6 +19,8 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Las cargas tienen límite de 25 MiB, extensión permitida, firma binaria, nombre normalizado y tipo MIME calculado por el servidor.
 - Se rechazan ejecutables, documentos Office con macros/objetos activos y PDF con acciones o adjuntos activos detectables.
 - Las descargas de estudiantes exigen una referencia exacta en D1 y coincidencia exacta de grupo, además del plan aplicable.
+- Los comprobantes de pago y sus archivos solo se entregan al administrador o al coordinador del grupo.
+- Las respuestas autenticadas y las descargas privadas usan `Cache-Control: private, no-store` para evitar que datos académicos o financieros permanezcan en cachés compartidas.
 - Cada archivo nuevo se registra en D1 con propietario, grupo, tamaño, tipo y huella SHA-256; si el registro falla, la carga R2 se revierte.
 - Las descargas exigen que ese registro D1 exista, permanezca activo y coincida exactamente con tipo y grupo; los objetos huérfanos o inválidos quedan fuera del acceso.
 - Los documentos académicos privados se mantienen fuera del repositorio de código y se conservan únicamente en almacenamientos autorizados.
@@ -54,15 +56,15 @@ La limpieza técnica se ejecuta de forma probabilística y ligera durante solici
 
 ## Respaldo y recuperación
 
-El respaldo de Configuración contiene perfiles, registros, inventario de archivos, huellas y hasta 5.000 eventos recientes de auditoría. Es una copia lógica para inspección o reconstrucción controlada; no incluye los bytes de los archivos R2.
+El respaldo de Configuración contiene perfiles, registros, inventario de archivos, huellas y hasta 5.000 eventos recientes de auditoría. La copia privada autorizada en Google Drive complementa ese respaldo lógico con los 11 binarios vigentes de R2; sus huellas SHA-256 y la lectura del paquete ya fueron verificadas.
 
-Para recuperación total todavía se necesita:
+Para cerrar la recuperación de producción todavía se necesita:
 
-1. elegir un destino externo autorizado para copiar los binarios privados de R2;
-2. probar la restauración en un Site separado con datos sintéticos;
-3. documentar responsable, frecuencia y tiempo máximo de recuperación.
+1. restaurar una copia en un Site separado, nunca sobre producción;
+2. documentar responsable, frecuencia y tiempo máximo de recuperación;
+3. repetir periódicamente la verificación de inventario y huellas.
 
-Hasta completar esas decisiones externas, el sistema debe mantenerse como piloto controlado con audiencia personalizada.
+Hasta completar el ensayo aislado de restauración, el sistema debe mantenerse como piloto controlado con audiencia personalizada.
 
 ## Reporte de incidentes
 

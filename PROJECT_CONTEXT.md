@@ -1,6 +1,6 @@
 # TUTOSEBAS — Contexto del proyecto
 
-Última actualización de contexto: 2026-09-27.
+Última actualización de contexto: 2026-09-28.
 
 ## Para qué existe
 
@@ -156,6 +156,7 @@ Es un estudiante con una función adicional. Puede reportar el pago completo del
 - Los intentos pertenecen al estudiante que los realizó.
 - Las revisiones del mismo documento permanecen en una solicitud.
 - Los pagos son comprobantes manuales.
+- Los comprobantes y sus archivos solo son visibles para el administrador y el coordinador del grupo.
 - Cada pago aprobado se aplica una sola vez y conserva los días no utilizados del plan.
 - Periodos históricos no deben mezclarse con el vigente.
 - No se elimina información durante desarrollo sin autorización expresa.

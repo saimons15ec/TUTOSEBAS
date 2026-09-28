@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertTrustedMutation, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey } from "../lib/security.ts";
+import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, objectKeyMatches, PublicError, publicIssue, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
 import { removeSubjectFromDistribution, sameSubject, subjectKey } from "../lib/subjects.ts";
@@ -94,6 +94,13 @@ test("activates configured administrators even when their test profile was pendi
   assert.deepEqual(resolveProfileAccess(admins, "principal@example.com", "pending"), { role: "admin", status: "active" });
   assert.deepEqual(resolveProfileAccess(admins, "student@example.com", "invited"), { role: "student", status: "active" });
   assert.deepEqual(resolveProfileAccess(admins, "student@example.com", "pending"), { role: "student", status: "pending" });
+});
+
+test("limits payment records to administrators and group coordinators", () => {
+  assert.equal(canAccessPaymentRecord("admin", "member"), true);
+  assert.equal(canAccessPaymentRecord("student", "coordinator"), true);
+  assert.equal(canAccessPaymentRecord("student", "member"), false);
+  assert.equal(canAccessPaymentRecord("student", ""), false);
 });
 
 test("applies security headers to the exact root route", async () => {
