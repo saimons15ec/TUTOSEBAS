@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, inspectUpload, isPlanActive, objectKeyMatches, PublicError, publicIssue, publicNoticeData, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, canSubmitWorkForGroup, inspectUpload, isPlanActive, objectKeyMatches, PublicError, publicIssue, publicNoticeData, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
 import { readApiJson, SESSION_EXPIRED_MESSAGE } from "../lib/client-api.ts";
 import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
@@ -153,6 +153,15 @@ test("fails closed when a plan has no valid future expiration", () => {
   assert.equal(isPlanActive("active", "fecha-invalida", now), false);
   assert.equal(isPlanActive("active", null, now), false);
   assert.equal(isPlanActive("pending", "2026-09-29T00:00:00Z", now), false);
+});
+
+test("authorizes work uploads only for an eligible group", () => {
+  const now = Date.parse("2026-09-28T00:00:00Z");
+  assert.equal(canSubmitWorkForGroup({ plan: "Plata", planStatus: "active", endsAt: "2026-09-29T00:00:00Z" }, now), true);
+  assert.equal(canSubmitWorkForGroup({ plan: "Gold", planStatus: "active", endsAt: "fecha-invalida" }, now), false);
+  assert.equal(canSubmitWorkForGroup({ plan: "Bronce", planStatus: "active", endsAt: "2026-09-29T00:00:00Z" }, now), false);
+  assert.equal(canSubmitWorkForGroup({ permissions: ["submission"] }, now), true);
+  assert.equal(canSubmitWorkForGroup({ permissions: ["all"] }, now), true);
 });
 
 test("exposes only the current student's notice read state", () => {

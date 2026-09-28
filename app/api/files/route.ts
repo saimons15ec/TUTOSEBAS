@@ -1,5 +1,5 @@
 import { bucket, context, parse, text } from "@/lib/uic";
-import { assertTrustedMutation, canAccessPaymentRecord, inspectUpload, isPlanActive, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, canSubmitWorkForGroup, inspectUpload, isPlanActive, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, registerFile, sha256Hex, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +31,14 @@ export async function POST(request: Request) {
     if (["submission", "payment"].includes(kind) && !current.profile.group_id) return fail("Debes pertenecer a un grupo.", 403);
     if (!isAdmin && !["submission", "payment"].includes(kind)) return fail("Tipo de archivo no permitido.", 403);
     if (kind === "payment" && current.profile.member_role !== "coordinator") return fail("Solo el coordinador puede cargar comprobantes.", 403);
+    if (!isAdmin) {
+      assertActiveStudent(current.profile.role, current.profile.status);
+      const group = await current.database.prepare("SELECT data_json FROM records WHERE id=? AND kind='group' LIMIT 1").bind(current.profile.group_id).first<{ data_json: string }>();
+      if (!group) return fail("Tu grupo no está disponible.", 403);
+      if (kind === "submission" && !canSubmitWorkForGroup(parse<Record<string, unknown>>(group.data_json, {}))) {
+        return fail("Tu plan no incluye revisión de trabajos.", 403);
+      }
+    }
 
     const requestedGroup = text(url.searchParams.get("groupId"), 100);
     const groupId = kind === "material" ? "shared" : isAdmin ? requestedGroup : current.profile.group_id!;

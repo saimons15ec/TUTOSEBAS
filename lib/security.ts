@@ -35,6 +35,14 @@ export function isPlanActive(status: unknown, endsAt: unknown, now = Date.now())
   return Number.isFinite(expiresAt) && expiresAt > now;
 }
 
+export function canSubmitWorkForGroup(groupData: Record<string, unknown>, now = Date.now()) {
+  const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
+  const plan = String(groupData.plan ?? "Sin plan");
+  return permissions.includes("all")
+    || permissions.includes("submission")
+    || (isPlanActive(groupData.planStatus, groupData.endsAt, now) && ["Plata", "Gold"].includes(plan));
+}
+
 export function publicNoticeData(value: Record<string, unknown>, profileId: string) {
   const { readBy, ...safe } = value;
   return { ...safe, read: Array.isArray(readBy) && readBy.map(String).includes(profileId) };
