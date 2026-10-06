@@ -23,6 +23,7 @@ La cédula no es una contraseña. Solo se conservan, si se registran, sus últim
 - Cada estudiante recibe únicamente su propio estado de lectura de avisos; la lista interna de perfiles que leyeron un aviso no se expone a otros estudiantes.
 - Los comprobantes de pago y sus archivos solo se entregan al administrador o al coordinador del grupo.
 - Las acciones de estudiante rechazan explícitamente cuentas administrativas, incluso si el perfil conservó una asociación histórica con un grupo.
+- Las entregas validan cuenta estudiantil, grupo y plan antes de leer o almacenar el archivo y vuelven a validarlos antes de crear el registro académico.
 - Los valores de pago se limitan a USD 10.000 y un máximo de dos decimales antes de registrar el comprobante.
 - Las respuestas autenticadas y las descargas privadas usan `Cache-Control: private, no-store` para evitar que datos académicos o financieros permanezcan en cachés compartidas.
 - Las respuestas de sesión vencida o no JSON se convierten en mensajes controlados y ofrecen volver a iniciar sesión sin mostrar errores técnicos.

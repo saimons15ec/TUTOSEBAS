@@ -110,7 +110,7 @@ Requiere comprobar razonablemente:
 - historial;
 - archivos;
 - persistencia;
-- alcance de IA acordado;
+- alcance de contenido acordado: importación por bloques sin API por decisión del propietario del 2026-10-03; generación con IA opcional futura;
 - escritorio;
 - móvil;
 - errores;

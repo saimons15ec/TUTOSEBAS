@@ -20,6 +20,24 @@ export const profiles = sqliteTable("profiles", {
   index("idx_profiles_status_role").on(table.status, table.role),
 ]);
 
+export const authIdentities = sqliteTable("auth_identities", {
+  profileId: text("profile_id").primaryKey().references(() => profiles.id),
+  providerId: text("provider_id").notNull(),
+  registeredEmail: text("registered_email").notNull(),
+  credentialsVersion: integer("credentials_version").notNull().default(1),
+  mustChangePassword: integer("must_change_password").notNull().default(1),
+  state: text("state").notNull().default("ready"),
+}, table => [uniqueIndex("idx_auth_identities_provider").on(table.providerId)]);
+
+export const authSessions = sqliteTable("auth_sessions", {
+  tokenHash: text("token_hash").primaryKey(),
+  profileId: text("profile_id").notNull().references(() => profiles.id),
+  credentialsVersion: integer("credentials_version").notNull(),
+  createdAt: integer("created_at").notNull(),
+  expiresAt: integer("expires_at").notNull(),
+  lastSeenAt: integer("last_seen_at").notNull(),
+}, table => [index("idx_auth_sessions_profile").on(table.profileId), index("idx_auth_sessions_expires").on(table.expiresAt)]);
+
 export const records = sqliteTable("records", {
   id: text("id").primaryKey(),
   kind: text("kind").notNull(),

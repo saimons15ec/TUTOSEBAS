@@ -1,0 +1,1 @@
+export function studentRevision(profile: Record<string, unknown>) { return JSON.stringify([profile.id, profile.full_name, profile.email, profile.role, profile.status, profile.identifier_last4 ?? null, profile.group_id ?? null, profile.member_role ?? 'member']); }

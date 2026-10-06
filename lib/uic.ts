@@ -1,7 +1,8 @@
 import { env } from "cloudflare:workers";
-import { getChatGPTUser, type ChatGPTUser } from "@/app/chatgpt-auth";
+import { getApplicationUser, type ApplicationUser } from "@/lib/application-auth";
+import { authMode } from "@/lib/password-auth";
 import quizData from "@/app/data/quiz.json";
-import { PublicError, resolveProfileAccess } from "@/lib/security";
+import { assertActiveAdministrator, PublicError, resolveProfileAccess } from "@/lib/security";
 
 type RuntimeEnv = Cloudflare.Env & { ADMIN_EMAILS?: string };
 export type Profile = { id: string; auth_id: string | null; email: string; full_name: string; role: "admin" | "student"; status: string; identifier_last4: string | null; group_id: string | null; member_role: string };
@@ -15,10 +16,10 @@ export const text = (value: unknown, max = 1000) => typeof value === "string" ? 
 export const email = (value: unknown) => { const result = text(value, 254).toLowerCase(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(result)) throw new PublicError("Ingresa un correo válido."); return result; };
 export const parse = <T>(value: string, fallback: T): T => { try { return JSON.parse(value) as T; } catch { return fallback; } };
 
-export async function identity(): Promise<ChatGPTUser | null> {
-  const user = await getChatGPTUser();
+export async function identity(): Promise<ApplicationUser | null> {
+  const user = await getApplicationUser();
   if (user) return user;
-  if (process.env.NODE_ENV === "development") return { userId: "local-tutosebas-admin", displayName: "Administrador local", fullName: "Administrador local", email: "admin@example.com" };
+  if (authMode() === "sites" && process.env.NODE_ENV === "development") return { userId: "local-tutosebas-admin", displayName: "Administrador local", fullName: "Administrador local", email: "admin@example.com" };
   return null;
 }
 
@@ -26,30 +27,47 @@ export async function context() {
   const user = await identity();
   if (!user) return null;
   const database = db();
-  const normalizedEmail = user.email.toLowerCase();
+  const normalizedEmail = email(user.email);
   const configuredAdmins = runtime.ADMIN_EMAILS ?? (process.env.NODE_ENV === "development" ? "admin@example.com" : "");
   const admins = new Set(configuredAdmins.split(",").map((item) => item.trim().toLowerCase()).filter(Boolean));
   if (!admins.size) throw new Error("ADMIN_EMAILS is not configured");
-  let profile = await database.prepare("SELECT * FROM profiles WHERE auth_id=? OR lower(email)=? LIMIT 1").bind(user.userId, normalizedEmail).first<Profile>();
+  if (user.method === "password") {
+    if (user.mustChangePassword) throw new PublicError("Cambia tu contraseña inicial antes de entrar a la plataforma.", 428);
+    const profile = await database.prepare("SELECT * FROM profiles WHERE id=? AND lower(email)=? AND status IN ('active','invited') LIMIT 1").bind(user.profileId, normalizedEmail).first<Profile>();
+    if (!profile) throw new PublicError("Tu cuenta no está habilitada.", 403);
+    const { role, status } = resolveProfileAccess(admins, normalizedEmail, profile.status);
+    const changed = await database.prepare("UPDATE profiles SET role=?,status=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status=? AND role=?").bind(role, status, profile.id, profile.status, profile.role).run();
+    if (changed.meta.changes !== 1) throw new PublicError("El acceso cambió. Vuelve a iniciar sesión.", 403);
+    return { user, profile: { ...profile, role, status }, database };
+  }
+  // A signed-in identity is not an invitation. Only the roster email (or a
+  // configured administrator during bootstrap) may acquire application access.
+  let profile = await database.prepare("SELECT * FROM profiles WHERE lower(email)=? LIMIT 1").bind(normalizedEmail).first<Profile>();
   if (!profile) {
+    if (!admins.has(normalizedEmail)) return { user, database, profile: { id: "unregistered", auth_id: null, email: normalizedEmail, full_name: user.fullName ?? user.displayName, role: "student", status: "unregistered", identifier_last4: null, group_id: null, member_role: "member" } as Profile };
+    const linked = await database.prepare("SELECT id FROM profiles WHERE auth_id=? LIMIT 1").bind(user.userId).first<{ id: string }>();
+    if (linked) throw new PublicError("El correo de esta sesión no coincide con la cuenta registrada. Usa tu correo autorizado.", 403);
     const id = uid("usr");
-    const admin = admins.has(normalizedEmail);
-    await database.prepare("INSERT INTO profiles (id,auth_id,email,full_name,role,status) VALUES (?,?,?,?,?,?)").bind(id, user.userId, normalizedEmail, user.fullName ?? user.displayName, admin ? "admin" : "student", admin ? "active" : "pending").run();
+    await database.prepare("INSERT INTO profiles (id,auth_id,email,full_name,role,status) VALUES (?,?,?,?,'admin','active')").bind(id, user.userId, normalizedEmail, user.fullName ?? user.displayName).run();
   } else {
+    if (profile.auth_id && profile.auth_id !== user.userId) throw new PublicError("Ese correo está vinculado a otra identidad. Usa la cuenta autorizada o solicita al profesor que revise el acceso.", 403);
+    const linked = await database.prepare("SELECT id FROM profiles WHERE auth_id=? AND id!=? LIMIT 1").bind(user.userId, profile.id).first<{ id: string }>();
+    if (linked) throw new PublicError("El correo de esta sesión no coincide con la cuenta registrada. Usa tu correo autorizado.", 403);
     const { role, status } = resolveProfileAccess(admins, normalizedEmail, profile.status);
     // The academic roster name is managed by the professor. Signing in with
     // ChatGPT must link the identity without replacing that registered name.
-    await database.prepare("UPDATE profiles SET auth_id=?,email=?,role=?,status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(user.userId, normalizedEmail, role, status, profile.id).run();
+    const changed = await database.prepare("UPDATE profiles SET auth_id=?,role=?,status=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND lower(email)=? AND (auth_id IS NULL OR auth_id=?) AND status=? AND role=?").bind(user.userId, role, status, profile.id, normalizedEmail, user.userId, profile.status, profile.role).run();
+    if (changed.meta.changes !== 1) throw new PublicError("El acceso cambió. Actualiza la página o pide al profesor que revise tu cuenta.", 403);
   }
   profile = await database.prepare("SELECT * FROM profiles WHERE auth_id=? LIMIT 1").bind(user.userId).first<Profile>();
   if (!profile) throw new Error("No fue posible preparar la cuenta.");
   const contentOwner = profile.role === "admin" ? profile.id : (await database.prepare("SELECT id FROM profiles WHERE role='admin' AND status='active' ORDER BY created_at LIMIT 1").first<{ id: string }>())?.id;
-  if (contentOwner) await ensurePilotSimulator(database, contentOwner);
-  if (profile.role === "admin") await seed(database, profile.id);
+  if (profile.status === "active" && contentOwner) await ensurePilotSimulator(database, contentOwner);
+  if (profile.role === "admin" && profile.status === "active") await seed(database, profile.id);
   return { user, profile, database };
 }
 
-export function admin(profile: Profile) { if (profile.role !== "admin" || profile.status !== "active") throw new PublicError("Esta acción requiere permisos de administrador.", 403); }
+export function admin(profile: Profile) { assertActiveAdministrator(profile.role, profile.status); }
 
 async function ensurePilotSimulator(database: D1Database, owner: string) {
   const exists = await database.prepare("SELECT id FROM records WHERE id='sim-ef-pilot'").first();

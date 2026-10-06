@@ -3,12 +3,66 @@ import test from "node:test";
 import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, canSubmitWorkForGroup, inspectUpload, isPlanActive, objectKeyMatches, PublicError, publicIssue, publicNoticeData, readBoundedBytes, readJsonObject, resolveProfileAccess, storedObjectKey, validPaymentAmount } from "../lib/security.ts";
 import { enforceRateLimit, rateLimitPolicy, sha256Hex, verifiedRegisteredFile } from "../lib/security-storage.ts";
 import { readApiJson, SESSION_EXPIRED_MESSAGE } from "../lib/client-api.ts";
-import { gradeSimulatorAttempt, publicAttemptQuestions } from "../lib/simulators.ts";
+import { clearSimulatorDraft, gradeSimulatorAttempt, loadSimulatorDraft, parseSimulatorDraft, publicAttemptQuestions, recoverableSimulatorAttempt, saveSimulatorDraft } from "../lib/simulators.ts";
 import { removeSubjectFromDistribution, sameSubject, subjectKey } from "../lib/subjects.ts";
 import nextConfig from "../next.config.ts";
+import { buildOperatingOverview, isDemonstrationContent, type OperatingRecord } from "../lib/operations.ts";
 
 const encoder = new TextEncoder();
 const objectKey = "submissions/grp_demo/2026-09/123e4567-e89b-42d3-a456-426614174000-trabajo.pdf";
+
+const operatingRecord = (id: string, kind: string, data: Record<string, unknown>, status = kind === "question" ? "approved" : "published"): OperatingRecord => ({
+  id, kind, title: "Contenido académico", status, data: { area: "complexive", period: "2026-2027", subject: "Lengua", ...data },
+});
+
+test("does not mark a demonstration-only published simulator as ready for teaching", () => {
+  const material = { ...operatingRecord("sample", "resource", { fileKey: "sample-key" }), title: "Infografía de prueba" };
+  const questions = Array.from({ length: 5 }, (_, i) => operatingRecord("q" + i, "question", { topic: "Prueba funcional · Simulador protegido" }));
+  const simulator = operatingRecord("sim", "simulator", { mode: "subject", count: 5 });
+  const overview = buildOperatingOverview([material, ...questions, simulator], [], "complexive", "2026-2027", ["Lengua"]);
+  assert.equal(overview.realMaterials, 0);
+  assert.equal(overview.realQuestions, 0);
+  assert.equal(overview.sampleQuestions, 5);
+  assert.equal(overview.subjects[0].ready, false);
+});
+
+test("recognizes reviewed academic content without confusing the word pruebas with test data", () => {
+  const material = { ...operatingRecord("real", "resource", { externalUrl: "https://example.edu/material" }), title: "Pruebas de comprensión lectora" };
+  assert.equal(isDemonstrationContent(material), false);
+  const questions = Array.from({ length: 5 }, (_, i) => operatingRecord("q" + i, "question", { topic: "Comprensión lectora" }));
+  const simulator = operatingRecord("sim", "simulator", { mode: "subject", count: 5 });
+  const overview = buildOperatingOverview([material, ...questions, simulator], [], "complexive", "2026-2027", ["Lengua"]);
+  assert.equal(overview.realMaterials, 1);
+  assert.equal(overview.realQuestions, 5);
+  assert.equal(overview.subjects[0].ready, true);
+});
+
+test("keeps historical, draft and incomplete records out of the current operating readiness", () => {
+  const records = [
+    operatingRecord("metadata", "resource", {}),
+    operatingRecord("draft", "resource", { fileKey: "draft-key" }, "draft"),
+    ...Array.from({ length: 5 }, (_, i) => operatingRecord("old" + i, "question", { period: "2025-2026" })),
+    operatingRecord("pending", "question", {}, "pending"),
+    operatingRecord("sim", "simulator", { mode: "subject", count: 5 }),
+  ];
+  const overview = buildOperatingOverview(records, [], "complexive", "2026-2027", ["Lengua"]);
+  assert.equal(overview.realMaterials, 0);
+  assert.equal(overview.realQuestions, 0);
+  assert.equal(overview.subjects[0].ready, false);
+});
+
+test("requires enough real questions and a current plan when summarizing operating preparation", () => {
+  const records = [
+    operatingRecord("material", "resource", { fileKey: "real-key" }),
+    ...Array.from({ length: 5 }, (_, i) => operatingRecord("q" + i, "question", {})),
+    operatingRecord("sim", "simulator", { mode: "subject", count: 10 }),
+    { ...operatingRecord("group", "group", { plan: "Gold", planStatus: "active", endsAt: "2026-09-30T00:00:00Z" }, "active") },
+  ];
+  const overview = buildOperatingOverview(records, [{ role: "student", status: "active", group_id: "missing" }], "complexive", "2026-2027", ["Lengua"], Date.parse("2026-10-03T00:00:00Z"));
+  assert.equal(overview.subjects[0].ready, false);
+  assert.equal(overview.groupsWithActivePlan, 0);
+  assert.equal(overview.unassignedStudents, 1);
+});
 
 test("accepts same-origin mutations and rejects cross-site requests", () => {
   const trusted = new Request("https://example.test/api/platform", { method: "POST", headers: { origin: "https://example.test", "sec-fetch-site": "same-origin" } });
@@ -95,6 +149,7 @@ test("activates configured administrators even when their test profile was pendi
   assert.deepEqual(resolveProfileAccess(admins, "principal@example.com", "pending"), { role: "admin", status: "active" });
   assert.deepEqual(resolveProfileAccess(admins, "student@example.com", "invited"), { role: "student", status: "active" });
   assert.deepEqual(resolveProfileAccess(admins, "student@example.com", "pending"), { role: "student", status: "pending" });
+  assert.deepEqual(resolveProfileAccess(admins, "principal@example.com", "suspended"), { role: "admin", status: "suspended" });
 });
 
 test("limits payment records to administrators and group coordinators", () => {
@@ -211,6 +266,67 @@ test("keeps simulator answer keys private until the attempt is finished", () => 
   assert.equal("source" in questions[0], false);
 });
 
+test("recovers only a matching unexpired simulator session without exposing answer keys", () => {
+  const now = Date.parse("2026-09-28T20:00:00.000Z");
+  const session = {
+    simulatorId: "sim-1",
+    startedAt: "2026-09-28T19:55:00.000Z",
+    expiresAt: "2026-09-28T23:55:00.000Z",
+    questions: [{
+      questionId: "q-1", subject: "Lengua", topic: "Lectura", format: "Selección directa", prompt: "Pregunta",
+      options: ["A", "B", "C", "D"], correctIndex: 2, explanation: "Secreto", source: "Fuente privada",
+    }],
+  };
+  const recovered = recoverableSimulatorAttempt(session, "sim-1", now);
+  assert.equal(recovered?.questions.length, 1);
+  assert.equal("correctIndex" in (recovered?.questions[0] ?? {}), false);
+  assert.equal(recoverableSimulatorAttempt(session, "sim-2", now), null);
+  assert.equal(recoverableSimulatorAttempt({ ...session, expiresAt: "2026-09-28T19:59:59.000Z" }, "sim-1", now), null);
+});
+
+test("restores only valid local answers for the current question set", () => {
+  assert.deepEqual(parseSimulatorDraft(JSON.stringify({ answers: { "q-1": 2, "q-2": 4, hostile: 0 }, index: 1 }), ["q-1", "q-2"]), {
+    answers: { "q-1": 2 },
+    index: 1,
+  });
+  assert.deepEqual(parseSimulatorDraft("not-json", ["q-1"]), { answers: {}, index: 0 });
+  assert.deepEqual(parseSimulatorDraft(JSON.stringify({ answers: { "q-1": null, "q-2": false, "q-3": "2" }, index: null }), ["q-1", "q-2", "q-3"]), { answers: {}, index: 0 });
+});
+
+test("keeps simulator actions available when browser storage is blocked", () => {
+  const blockedStorage = () => { throw new Error("Storage access denied"); };
+  assert.deepEqual(loadSimulatorDraft("attempt-1", ["q-1"], blockedStorage), { answers: {}, index: 0, available: false });
+  assert.equal(saveSimulatorDraft("attempt-1", { answers: { "q-1": 1 }, index: 0 }, blockedStorage), false);
+  assert.equal(clearSimulatorDraft("attempt-1", blockedStorage), false);
+
+  const failedOperations = () => ({
+    getItem: () => { throw new Error("Read denied"); },
+    setItem: () => { throw new Error("Storage quota exceeded"); },
+    removeItem: () => { throw new Error("Removal denied"); },
+  });
+  assert.deepEqual(loadSimulatorDraft("attempt-1", ["q-1"], failedOperations), { answers: {}, index: 0, available: false });
+  assert.equal(saveSimulatorDraft("attempt-1", { answers: { "q-1": 1 }, index: 0 }, failedOperations), false);
+  assert.equal(clearSimulatorDraft("attempt-1", failedOperations), false);
+});
+
+test("preserves a large final-exam draft and clears only its own attempt", () => {
+  const values = new Map<string, string>();
+  const storage = () => ({
+    getItem: (key: string) => values.get(key) ?? null,
+    setItem: (key: string, value: string) => { values.set(key, value); },
+    removeItem: (key: string) => { values.delete(key); },
+  });
+  const questionIds = Array.from({ length: 345 }, (_, index) => `question-${String(index).padStart(4, "0")}-12345678-1234-5678-1234-123456789012`);
+  const draft = { answers: Object.fromEntries(questionIds.map((id, index) => [id, index % 4])), index: 344 };
+  assert.ok(JSON.stringify(draft).length > 10_000);
+  assert.equal(saveSimulatorDraft("attempt-1", draft, storage), true);
+  assert.equal(saveSimulatorDraft("attempt-2", { answers: { "q-other": 0 }, index: 0 }, storage), true);
+  assert.deepEqual(loadSimulatorDraft("attempt-1", questionIds, storage), { ...draft, available: true });
+  assert.equal(clearSimulatorDraft("attempt-1", storage), true);
+  assert.deepEqual(loadSimulatorDraft("attempt-1", questionIds, storage), { answers: {}, index: 0, available: true });
+  assert.deepEqual(loadSimulatorDraft("attempt-2", ["q-other"], storage), { answers: { "q-other": 0 }, index: 0, available: true });
+});
+
 test("requires every simulator answer and calculates the score over 20", () => {
   const questions = [
     { questionId: "q-1", subject: "Lengua", options: ["A", "B", "C", "D"], correctIndex: 0 },
@@ -234,4 +350,18 @@ test("requires every simulator answer and calculates the score over 20", () => {
     assert.equal(result.score, 15);
     assert.equal(result.passed, true);
   }
+});
+
+test("an unanswered or malformed alternative cannot count as a simulator answer", () => {
+  const questions = [
+    { questionId: "q-1", options: ["A", "B", "C", "D"], correctIndex: 0 },
+    { questionId: "q-2", options: ["A", "B", "C", "D"], correctIndex: 1 },
+  ];
+  for (const selectedIndex of [null, false, true, "", "0", [], {}, undefined, 0.5, -1, 4, Number.NaN, Number.POSITIVE_INFINITY]) {
+    const result = gradeSimulatorAttempt(questions, [{ questionId: "q-1", selectedIndex }, { questionId: "q-2", selectedIndex: 1 }], 14);
+    assert.deepEqual(result, { ok: false, error: "Debes responder las 2 preguntas antes de finalizar.", status: 400 });
+  }
+  const result = gradeSimulatorAttempt(questions, [{ questionId: "q-1", selectedIndex: 0 }, { questionId: "q-2", selectedIndex: 1 }], 14);
+  assert.equal(result.ok, true);
+  if (result.ok) assert.equal(result.score, 20);
 });

@@ -9,9 +9,9 @@ type LinkedRecord = { created_by: string; group_id: string | null };
 const fail = (error: string, status = 400) => Response.json({ error }, { status, headers: { "cache-control": "no-store" } });
 
 function linkQuery(kind: UploadKind) {
-  if (kind === "material") return "SELECT created_by,group_id FROM records WHERE kind IN ('resource','course') AND json_extract(data_json,'$.fileKey')=? LIMIT 1";
-  if (kind === "review") return "SELECT created_by,group_id FROM records WHERE kind='submission' AND json_extract(data_json,'$.reviewFileKey')=? LIMIT 1";
-  if (kind === "submission") return "SELECT created_by,group_id FROM records WHERE kind='submission' AND json_extract(data_json,'$.fileKey')=? LIMIT 1";
+  if (kind === "material") return "SELECT created_by,group_id FROM records WHERE kind IN ('resource','course','course_lesson') AND json_extract(data_json,'$.fileKey')=? LIMIT 1";
+  if (kind === "review") return "SELECT created_by,group_id FROM records WHERE kind='submission' AND (json_extract(data_json,'$.reviewFileKey')=? OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(records.data_json,'$.workHistory'),'[]')) AS version WHERE json_extract(version.value,'$.fileKey')=? AND json_extract(version.value,'$.event')='review')) LIMIT 1";
+  if (kind === "submission") return "SELECT created_by,group_id FROM records WHERE kind='submission' AND (json_extract(data_json,'$.fileKey')=? OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(records.data_json,'$.workHistory'),'[]')) AS version WHERE json_extract(version.value,'$.fileKey')=? AND json_extract(version.value,'$.event')='submission')) LIMIT 1";
   return "SELECT created_by,group_id FROM records WHERE kind='payment' AND json_extract(data_json,'$.proofKey')=? LIMIT 1";
 }
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         existing += 1;
         continue;
       }
-      const linked = await current.database.prepare(linkQuery(parsed.kind)).bind(key).first<LinkedRecord>();
+      const linked = await current.database.prepare(linkQuery(parsed.kind)).bind(key, ...(["submission", "review"].includes(parsed.kind) ? [key] : [])).first<LinkedRecord>();
       if (!linked) {
         orphaned += 1;
         continue;

@@ -13,11 +13,12 @@ export async function GET() {
     admin(current.profile);
     await enforceRateLimit(current.database, current.profile.id, "security:backup");
 
-    const [profiles, records, files, audit] = await Promise.all([
+    const [profiles, records, files, audit, identities] = await Promise.all([
       current.database.prepare("SELECT * FROM profiles ORDER BY created_at").all(),
       current.database.prepare("SELECT * FROM records ORDER BY created_at").all(),
       current.database.prepare("SELECT * FROM file_objects ORDER BY created_at").all(),
       current.database.prepare("SELECT * FROM security_audit ORDER BY created_at DESC LIMIT 5000").all(),
+      current.database.prepare("SELECT * FROM auth_identities ORDER BY profile_id").all(),
     ]);
 
     const r2Objects: Array<{ key: string; size: number; etag: string; uploaded: string }> = [];
@@ -38,7 +39,7 @@ export async function GET() {
     const generatedAt = new Date().toISOString();
     const payload = {
       format: "tutosebas-logical-backup",
-      schemaVersion: 2,
+      schemaVersion: 3,
       generatedAt,
       warning: "Este respaldo lógico contiene D1 y el inventario de R2. Conserva además una copia externa de los archivos binarios de R2.",
       counts: {
@@ -47,12 +48,14 @@ export async function GET() {
         fileObjects: files.results.length,
         auditEvents: audit.results.length,
         r2Objects: r2Objects.length,
+        authIdentities: identities.results.length,
       },
       r2InventoryTruncated: Boolean(truncated && r2Objects.length >= 5000),
       profiles: profiles.results,
       records: records.results,
       fileObjects: files.results,
       securityAudit: audit.results,
+      authIdentities: identities.results,
       r2Objects,
     };
 

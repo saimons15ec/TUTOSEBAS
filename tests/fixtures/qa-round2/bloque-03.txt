@@ -1,0 +1,251 @@
+Pregunta 1: Experiencia 3: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?
+Formato: Selección directa
+Alternativa A: Cambiar solo el agua y mantener las otras condiciones iguales.
+Alternativa B: Cambiar agua, luz y suelo a la vez.
+Alternativa C: Concluir antes de observar.
+Alternativa D: Omitir el registro de las semillas.
+Correcta: A
+Explicación: Una sola variable modificada permite comparar el efecto del agua.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 1
+Mezclar alternativas: Sí
+
+Pregunta 2: Experiencia 3: ¿Qué instrumento permite medir el volumen de agua?
+Formato: Selección directa
+Alternativa A: Una balanza sin recipiente.
+Alternativa B: Una probeta graduada.
+Alternativa C: Un termómetro.
+Alternativa D: Un cronómetro.
+Correcta: B
+Explicación: La probeta graduada permite leer el volumen del líquido.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 2
+Mezclar alternativas: Sí
+
+Pregunta 3: Experiencia 3: ¿Qué dato representa una observación medible?
+Formato: Selección directa
+Alternativa A: La planta debería crecer.
+Alternativa B: La planta es la mejor.
+Alternativa C: La planta creció 3 centímetros.
+Alternativa D: La planta parece feliz.
+Correcta: C
+Explicación: Los centímetros expresan una medida verificable.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 3
+Mezclar alternativas: Sí
+
+Pregunta 4: Experiencia 3: ¿Qué evidencia ayuda a comparar dos experimentos?
+Formato: Selección directa
+Alternativa A: Opiniones sin registros.
+Alternativa B: Solo el nombre de los participantes.
+Alternativa C: Resultados elegidos para confirmar una idea.
+Alternativa D: Registros obtenidos con el mismo procedimiento.
+Correcta: D
+Explicación: Un procedimiento comparable y registros completos permiten contrastar resultados.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 4
+Mezclar alternativas: Sí
+
+Pregunta 5: Experiencia 3: La cantidad de agua que se cambia entre dos grupos es la variable ______.
+Formato: Completar
+Alternativa A: independiente
+Alternativa B: dependiente
+Alternativa C: inexistente
+Alternativa D: de conclusión
+Correcta: A
+Explicación: La variable independiente es la que se modifica deliberadamente.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 5
+Mezclar alternativas: Sí
+
+Pregunta 6: Experiencia 3: La longitud de la planta, medida cada día, constituye un ______.
+Formato: Completar
+Alternativa A: comprobante
+Alternativa B: dato
+Alternativa C: supuesto sin comprobar
+Alternativa D: nombre de grupo
+Correcta: B
+Explicación: La longitud medida es un dato registrado del experimento.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 6
+Mezclar alternativas: Sí
+
+Pregunta 7: Experiencia 3: Para comunicar una medición de longitud se indica el número y la ______.
+Formato: Completar
+Alternativa A: opinión
+Alternativa B: clave del estudiante
+Alternativa C: unidad
+Alternativa D: contraseña
+Correcta: C
+Explicación: Una medición necesita valor y unidad para interpretarse.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 7
+Mezclar alternativas: Sí
+
+Pregunta 8: Experiencia 3: Una conclusión del experimento debe apoyarse en la ______ registrada.
+Formato: Completar
+Alternativa A: preferencia
+Alternativa B: predicción sin comprobar
+Alternativa C: lista de asistentes
+Alternativa D: evidencia
+Correcta: D
+Explicación: La conclusión utiliza la evidencia obtenida y registrada.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 8
+Mezclar alternativas: Sí
+
+Pregunta 9: Experiencia 3: Relaciona instrumento y magnitud.
+Lista 1: 1. Termómetro. 2. Cronómetro.
+Lista 2: a. Tiempo. b. Temperatura.
+Formato: Relacionar
+Alternativa A: 1-b; 2-a
+Alternativa B: 1-a; 2-b
+Alternativa C: 1-a; 2-a
+Alternativa D: 1-b; 2-b
+Correcta: A
+Explicación: El termómetro mide temperatura y el cronómetro mide tiempo.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 9
+Mezclar alternativas: No
+
+Pregunta 10: Experiencia 3: Relaciona acción y finalidad.
+Lista 1: 1. Observar. 2. Registrar.
+Lista 2: a. Conservar datos. b. Examinar cambios.
+Formato: Relacionar
+Alternativa A: 1-b; 2-b
+Alternativa B: 1-b; 2-a
+Alternativa C: 1-a; 2-b
+Alternativa D: 1-a; 2-a
+Correcta: B
+Explicación: Observar examina cambios; registrar conserva los datos.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 10
+Mezclar alternativas: No
+
+Pregunta 11: Experiencia 3: Relaciona unidad y magnitud.
+Lista 1: 1. Centímetro. 2. Segundo.
+Lista 2: a. Tiempo. b. Longitud.
+Formato: Relacionar
+Alternativa A: 1-a; 2-a
+Alternativa B: 1-b; 2-b
+Alternativa C: 1-b; 2-a
+Alternativa D: 1-a; 2-b
+Correcta: C
+Explicación: El centímetro expresa longitud y el segundo expresa tiempo.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 11
+Mezclar alternativas: No
+
+Pregunta 12: Experiencia 3: Relaciona registro y propósito.
+Lista 1: 1. Tabla de datos. 2. Gráfico.
+Lista 2: a. Visualizar una comparación. b. Conservar valores organizados.
+Formato: Relacionar
+Alternativa A: 1-a; 2-b
+Alternativa B: 1-a; 2-a
+Alternativa C: 1-b; 2-b
+Alternativa D: 1-b; 2-a
+Correcta: D
+Explicación: La tabla conserva valores y el gráfico facilita su comparación.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 12
+Mezclar alternativas: No
+
+Pregunta 13: Experiencia 3: Ordena una investigación breve.
+1. Comunicar resultados.
+2. Observar y registrar.
+3. Preparar las condiciones.
+Formato: Ordenar
+Alternativa A: 3 → 2 → 1
+Alternativa B: 1 → 2 → 3
+Alternativa C: 2 → 1 → 3
+Alternativa D: 3 → 1 → 2
+Correcta: A
+Explicación: Primero se prepara, después se observa y finalmente se comunica.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 13
+Mezclar alternativas: No
+
+Pregunta 14: Experiencia 3: Ordena una medición.
+1. Anotar el valor y la unidad.
+2. Leer la escala.
+3. Elegir el instrumento adecuado.
+Formato: Ordenar
+Alternativa A: 3 → 1 → 2
+Alternativa B: 3 → 2 → 1
+Alternativa C: 1 → 2 → 3
+Alternativa D: 2 → 1 → 3
+Correcta: B
+Explicación: Elegir el instrumento precede a leerlo y registrar el resultado.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 14
+Mezclar alternativas: No
+
+Pregunta 15: Experiencia 3: Ordena el análisis de una tabla.
+1. Elaborar una conclusión.
+2. Comparar los valores.
+3. Revisar los registros completos.
+Formato: Ordenar
+Alternativa A: 2 → 1 → 3
+Alternativa B: 3 → 1 → 2
+Alternativa C: 3 → 2 → 1
+Alternativa D: 1 → 2 → 3
+Correcta: C
+Explicación: Revisar los datos permite compararlos antes de concluir.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 15
+Mezclar alternativas: No
+
+Pregunta 16: Experiencia 3: Ordena la revisión de un experimento.
+1. Repetir con condiciones controladas.
+2. Identificar el cambio inesperado.
+3. Revisar el procedimiento registrado.
+Formato: Ordenar
+Alternativa A: 1 → 2 → 3
+Alternativa B: 2 → 1 → 3
+Alternativa C: 3 → 1 → 2
+Alternativa D: 3 → 2 → 1
+Correcta: D
+Explicación: Se revisa el registro, se identifica el problema y se repite controlando condiciones.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 16
+Mezclar alternativas: No
+
+Pregunta 17: 
+Formato: Caso práctico
+Contexto: Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.
+Enunciado: Experiencia 3: ¿Qué decisión permite comparar el efecto del agua?
+Alternativa A: Mantener iguales la luz, las semillas y el suelo.
+Alternativa B: Cambiar también el tipo de semilla.
+Alternativa C: Omitir el grupo de comparación.
+Alternativa D: Eliminar las mediciones que no coincidan.
+Correcta: A
+Explicación: Para comparar el efecto del agua deben controlarse las otras condiciones.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 17
+Mezclar alternativas: Sí
+
+Pregunta 18: 
+Formato: Caso práctico
+Contexto: Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.
+Enunciado: Experiencia 3: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?
+Alternativa A: Cambiar la pregunta sin registrar el cambio.
+Alternativa B: Comparar los registros de ambos grupos.
+Alternativa C: Elegir el resultado más conveniente.
+Alternativa D: Usar solo el primer día.
+Correcta: B
+Explicación: Comparar todos los registros permite fundamentar la conclusión.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 18
+Mezclar alternativas: Sí
+
+Pregunta 19: 
+Formato: Caso práctico
+Contexto: Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.
+Enunciado: Experiencia 3: ¿Cómo debe tratarse una medición inesperada?
+Alternativa A: Sustituirla por la predicción.
+Alternativa B: Copiar el valor de otro equipo.
+Alternativa C: Revisar el instrumento y conservar el registro de la revisión.
+Alternativa D: Borrarla sin anotarlo.
+Correcta: C
+Explicación: La revisión transparente conserva la evidencia y permite explicar errores.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 19
+Mezclar alternativas: Sí
+
+Pregunta 20: 
+Formato: Caso práctico
+Contexto: Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.
+Enunciado: Experiencia 3: ¿Qué registro mejora la posibilidad de repetir la experiencia?
+Alternativa A: Solo la conclusión final.
+Alternativa B: Solo los nombres del equipo.
+Alternativa C: Solo la respuesta preferida.
+Alternativa D: Materiales, procedimiento, condiciones y datos obtenidos.
+Correcta: D
+Explicación: Un registro del procedimiento y las condiciones permite repetir la experiencia.
+Fuente: Material de prueba QA · Experiencia 3 · Sección 20
+Mezclar alternativas: Sí

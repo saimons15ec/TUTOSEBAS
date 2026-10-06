@@ -1,6 +1,13 @@
 # Copied Sites are standalone projects and cannot inherit the monorepo policy.
 minimumReleaseAge: 10080
 minimumReleaseAgeIgnoreMissingTime: false
+# Exact security fixes reviewed during the final audit; keep the age policy
+# for every other package. See AUDITORIA_FINAL.md.
+minimumReleaseAgeExclude:
+  - source-map-js@1.2.2
+  - undici@7.29.1
+  - brace-expansion@1.1.21
+  - brace-expansion@5.0.12
 trustLockfile: false
 strictDepBuilds: true
 allowBuilds:
@@ -18,16 +25,18 @@ packageImportMethod: clone-or-copy
 verifyDepsBeforeRun: false
 optimisticRepeatInstall: false
 overrides:
+  'fast-uri@>=3.0.0 <3.1.8': 3.1.8
+  'source-map-js@<1.2.2': 1.2.2
   '@babel/core': 7.29.6
   browserslist: 4.28.7
   baseline-browser-mapping: 2.11.0
-  'brace-expansion@<1.1.18': 1.1.18
-  'brace-expansion@>=3.0.0 <5.0.9': 5.0.9
+  'brace-expansion@<1.1.21': 1.1.21
+  'brace-expansion@>=3.0.0 <5.0.12': 5.0.12
   'esbuild@<=0.24.2': 0.25.12
   'esbuild@>=0.27.3 <0.28.1': 0.28.1
   'fflate@>=0.7.0 <0.7.5': 0.7.5
   'image-size@>=0.6.3 <=2.0.2': 2.0.3
   'js-yaml@>=4.0.0 <4.3.2': 4.3.2
   miniflare>sharp: 0.35.4
-  'undici@>=7.0.0 <7.29.0': 7.29.0
+  'undici@>=7.0.0 <7.29.1': 7.29.1
   'ws@>=8.0.0 <8.21.0': 8.21.0

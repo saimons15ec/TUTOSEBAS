@@ -1,0 +1,23 @@
+"use client";
+import { useState } from 'react';
+import { Pencil, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { resolveSupportDraft, supportDraft, SupportContentInput, type SupportUpload } from '@/components/support-content';
+
+type Row = { id: string; title: string; updated_at: string; data: Record<string, unknown> };
+export function AcademicMaterialEdit({ row, mutate, upload }: { row: Row; mutate: (body: Record<string, unknown>, success?: string) => Promise<boolean>; upload: SupportUpload }) {
+  const [open, setOpen] = useState(false), [title, setTitle] = useState(row.title), [description, setDescription] = useState(String(row.data.description || '')), [plan, setPlan] = useState(String(row.data.plan || 'Bronce')), [replace, setReplace] = useState(false), [content, setContent] = useState(supportDraft({ materialType: row.data.materialType })), [busy, setBusy] = useState(false);
+  const history = Array.isArray(row.data.materialVersions) ? row.data.materialVersions as Record<string, unknown>[] : [];
+  return <Dialog open={open} onOpenChange={value => { if (!busy) setOpen(value); }}><DialogTrigger asChild><Button size="sm" variant="outline"><Pencil/> Editar material</Button></DialogTrigger><DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl"><DialogHeader><DialogTitle>Editar material de la materia</DialogTitle><DialogDescription>{String(row.data.subject)} · {String(row.data.topic)}. Se conserva su ubicación y su vínculo con las preguntas. Guardar devuelve el material a borrador.</DialogDescription></DialogHeader>
+    <label className="space-y-2 text-sm font-semibold">Título<Input maxLength={180} value={title} disabled={busy} onChange={e => setTitle(e.target.value)}/></label>
+    <label className="space-y-2 text-sm font-semibold">Descripción<Textarea maxLength={4000} value={description} disabled={busy} onChange={e => setDescription(e.target.value)}/></label>
+    <label className="space-y-2 text-sm font-semibold">Plan mínimo<select className="min-h-11 w-full rounded-xl border bg-white px-3" disabled={busy} value={plan} onChange={e => setPlan(e.target.value)}>{['Bronce', 'Plata', 'Gold'].map(name => <option key={name}>{name}</option>)}</select></label>
+    <label className="flex items-center gap-3 rounded-xl border p-3 text-sm font-semibold"><input type="checkbox" checked={replace} disabled={busy} onChange={e => setReplace(e.target.checked)}/> Sustituir el archivo o enlace</label>
+    {replace && <><p className="rounded-xl bg-amber-50 p-3 text-sm leading-6">El archivo anterior se conserva en versiones. Las preguntas vinculadas vuelven a revisión; los intentos ya realizados se conservan.</p><SupportContentInput value={content} onChange={setContent} disabled={busy}/></>}
+    {history.length > 0 && <details className="rounded-xl border p-3"><summary className="cursor-pointer text-sm font-semibold">Versiones anteriores ({history.length})</summary><div className="mt-3 space-y-2">{history.toReversed().map((version, index) => <div key={String(version.revision || index)} className="rounded-xl bg-slate-50 p-3 text-sm"><p className="font-semibold">{String(version.title || 'Material')}</p>{Boolean(version.fileKey) && <a className="mt-2 inline-block underline" href={`/api/files?key=${encodeURIComponent(String(version.fileKey))}`}>Descargar {String(version.fileName || 'archivo anterior')}</a>}{Boolean(version.externalUrl) && <a className="mt-2 inline-block underline" href={String(version.externalUrl)} target="_blank" rel="noreferrer">Abrir enlace anterior</a>}</div>)}</div></details>}
+    <div className="flex justify-end gap-2"><Button variant="outline" disabled={busy} onClick={() => setOpen(false)}>Cancelar</Button><Button className="bg-[#003f32]" disabled={busy || !title.trim()} onClick={async () => { setBusy(true); try { const replacement = replace ? await resolveSupportDraft(content, upload) : {}; if (!replacement) return; if (await mutate({ action: 'save_academic_material', id: row.id, revision: row.data.materialRevision || row.updated_at, title, replaceContent: replace, data: { ...replacement, description, plan } }, replace ? 'Material sustituido. Publica el material y revisa sus preguntas.' : 'Material actualizado como borrador.')) setOpen(false); } finally { setBusy(false); } }}>{busy ? <RefreshCw className="animate-spin"/> : <Pencil/>} Guardar material</Button></div>
+  </DialogContent></Dialog>;
+}

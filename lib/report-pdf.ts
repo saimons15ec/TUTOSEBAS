@@ -1,0 +1,16 @@
+import { PDFDocument, rgb, type PDFFont, type PDFPage } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
+import type { ReportDocument } from './report-export.ts';
+export async function reportPDF(doc:ReportDocument,regularBytes:Uint8Array,boldBytes:Uint8Array){
+ const pdf=await PDFDocument.create();pdf.registerFontkit(fontkit);pdf.setTitle('TUTOSEBAS - Seguimiento académico');pdf.setAuthor('TUTOSEBAS');
+ const regular=await pdf.embedFont(regularBytes,{subset:true}),bold=await pdf.embedFont(boldBytes,{subset:true}),supported=new Set(regular.getCharacterSet()),teal=rgb(0,0.25,0.2),muted=rgb(0.4,0.45,0.43);
+ const clean=(value:unknown)=>String(value).normalize('NFC').replace(/[\u0000-\u001F\u007F]/g,' ').replace(/\s+/g,' ').trim();
+ const wrap=(value:unknown,size:number,font:PDFFont=regular)=>{const chars=Array.from(clean(value));if(chars.some(c=>!supported.has(c.codePointAt(0)!)))throw new Error('El PDF no admite un carácter del reporte. Descarga Excel para conservarlo.');const lines:string[]=[];let line='';for(const c of chars){if(line&&font.widthOfTextAtSize(line+c,size)>515){const space=line.lastIndexOf(' ');if(space>0){lines.push(line.slice(0,space));line=line.slice(space+1)+c;}else{lines.push(line);line=c;}}else line+=c;}if(line||!lines.length)lines.push(line);return lines;};
+ let page:PDFPage,y=738;const next=()=>{page=pdf.addPage([595.28,841.89]);page.drawText('TUTOSEBAS',{x:40,y:799,size:17,font:bold,color:teal});page.drawText('Seguimiento académico',{x:40,y:778,size:11,font:regular,color:teal});page.drawText(`Generado: ${doc.generatedAt} (Ecuador)`,{x:40,y:761,size:9,font:regular,color:muted});y=738;};
+ const line=(value:string,size=9.5,font:PDFFont=regular,color=rgb(0.1,0.2,0.18))=>{if(y<60)next();page.drawText(value,{x:40,y,size,font,color});y-=size+5;};
+ const block=(title:string,body:string[])=>{const headings=wrap(title,11,bold),lines=body.flatMap(l=>wrap(l,9.5)),height=headings.length*16+lines.length*14.5+16;if(y-height<60&&height<678)next();for(const h of headings)line(h,11,bold,teal);for(const l of lines)line(l);page.drawLine({start:{x:40,y:y+2},end:{x:555,y:y+2},thickness:0.5,color:rgb(0.86,0.89,0.87)});y-=14;};
+ next();block('Filtros aplicados',doc.filters);block('Alcance del reporte',[`Escala de notas: 0 a 20. ${doc.tables[0].rows.length} estudiante(s), ${doc.tables[1].rows.length} intento(s) finalizado(s).`,'Incluye todos los registros del filtro; la página visible no limita la descarga.']);
+ for(const table of doc.tables){if(y<150)next();line(table.name,14,bold,teal);y-=5;if(!table.rows.length)block('Sin registros',['No hay resultados para los filtros elegidos.']);
+ for(const r of table.rows){if(table.name==='Estudiantes')block(String(r[0]),[`${r[1]} · Grupo actual: ${r[2]}`,r[3]?`Intentos: ${r[3]} · Promedio: ${r[4]}/20 · Mejor: ${r[5]}/20 · Última: ${r[6]}/20`:'Sin intentos finalizados',`${r[7]}${r[8]?' · '+r[8]:''}${r[9]?' · Grupo del último intento: '+r[9]:''}`]);else block(`${r[0]} · ${r[3]}`,[`${r[1]} · Grupo del intento: ${r[2]} · Periodo: ${r[4]}`,`${r[5]} · Nota: ${r[6]}/20 · ${r[10]}`,`${r[7]} correctas de ${r[8]} · Duración: ${r[9]} s · ID: ${r[11]}`]);}}
+ const pages=pdf.getPages();pages.forEach((p,i)=>p.drawText(`Reporte académico · Página ${i+1} de ${pages.length}`,{x:40,y:32,size:8,font:regular,color:muted}));return pdf.save();
+}
