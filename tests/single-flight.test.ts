@@ -1,0 +1,6 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { requestKey, SingleFlight } from '../lib/single-flight.ts';
+test('simultaneous duplicate submissions share one operation and result', async () => { const r = new SingleFlight<boolean>(); let calls = 0; let finish!: (value: boolean) => void; const task = () => { calls++; return new Promise<boolean>(resolve => { finish = resolve; }); }; const a = r.run('same', task), b = r.run('same', task); assert.equal(a, b); await Promise.resolve(); assert.equal(calls, 1); finish(true); assert.deepEqual(await Promise.all([a,b]), [true,true]); await r.run('same', async () => { calls++; return false; }); assert.equal(calls, 2); });
+test('failure releases a submission so it can be retried', async () => { const r = new SingleFlight<boolean>(); await assert.rejects(r.run('x', async () => { throw new Error('failed'); })); assert.equal(await r.run('x', async () => true), true); });
+test('different actions or records remain independent and nested key order is normalized', async () => { assert.equal(requestKey({action:'save',data:{b:2,a:1}}), requestKey({data:{a:1,b:2},action:'save'})); assert.notEqual(requestKey({action:'save',id:'a'}),requestKey({action:'save',id:'b'})); const r = new SingleFlight<number>(); assert.deepEqual(await Promise.all([r.run('a',async()=>1),r.run('b',async()=>2)]),[1,2]); });

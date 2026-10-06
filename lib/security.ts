@@ -1,3 +1,6 @@
+import { PlanPolicyError, canUsePlanFeature, type PlanCatalog } from "./plans.ts";
+export { isPlanActive } from "./plans.ts";
+
 export const MAX_JSON_BYTES = 1024 * 1024;
 export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
@@ -15,7 +18,7 @@ export class PublicError extends Error {
 
 export function resolveProfileAccess(admins: ReadonlySet<string>, normalizedEmail: string, currentStatus: string) {
   const role = admins.has(normalizedEmail) ? "admin" as const : "student" as const;
-  const status = role === "admin" || currentStatus === "invited" ? "active" : currentStatus;
+  const status = currentStatus === "suspended" ? "suspended" : role === "admin" || currentStatus === "invited" ? "active" : currentStatus;
   return { role, status };
 }
 
@@ -29,22 +32,20 @@ export function assertActiveStudent(role: string, status: string) {
   }
 }
 
-export function isPlanActive(status: unknown, endsAt: unknown, now = Date.now()) {
-  if (status !== "active" || typeof endsAt !== "string") return false;
-  const expiresAt = Date.parse(endsAt);
-  return Number.isFinite(expiresAt) && expiresAt > now;
+export function assertActiveAdministrator(role: string, status: string) {
+  if (role !== "admin" || status !== "active") throw new PublicError("Esta acción requiere permisos de administrador.", 403);
 }
 
-export function canSubmitWorkForGroup(groupData: Record<string, unknown>, now = Date.now()) {
-  const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
-  const plan = String(groupData.plan ?? "Sin plan");
-  return permissions.includes("all")
-    || permissions.includes("submission")
-    || (isPlanActive(groupData.planStatus, groupData.endsAt, now) && ["Plata", "Gold"].includes(plan));
+export function canSubmitWorkForGroup(groupData: Record<string, unknown>, now = Date.now(), catalog?: PlanCatalog, workType?: string) {
+  if (workType === "planning") return canUsePlanFeature(groupData, "work.planning", catalog, undefined, undefined, now);
+  if (workType === "case-study") return canUsePlanFeature(groupData, "work.case_study", catalog, undefined, undefined, now);
+  if (workType !== undefined) return false;
+  return canUsePlanFeature(groupData, "work.planning", catalog, undefined, undefined, now) || canUsePlanFeature(groupData, "work.case_study", catalog, undefined, undefined, now);
 }
 
 export function publicNoticeData(value: Record<string, unknown>, profileId: string) {
-  const { readBy, ...safe } = value;
+  const { readBy, noticeVersions:_noticeVersions, updatedBy:_updatedBy, ...safe } = value;
+  void _noticeVersions;void _updatedBy;
   return { ...safe, read: Array.isArray(readBy) && readBy.map(String).includes(profileId) };
 }
 
@@ -54,7 +55,7 @@ export function validPaymentAmount(value: unknown) {
 }
 
 export function publicIssue(error: unknown, fallback: string) {
-  if (error instanceof PublicError) return { message: error.message, status: error.status };
+  if (error instanceof PublicError || error instanceof PlanPolicyError) return { message: error.message, status: error.status };
   const message = error instanceof Error ? error.message : "";
   if (/UNIQUE constraint failed: profiles\.email/i.test(message)) return { message: "Ese correo ya está registrado.", status: 409 };
   if (/no such table/i.test(message)) return { message: "La actualización de datos aún no está publicada.", status: 503 };
@@ -76,9 +77,8 @@ export function assertTrustedMutation(request: Request) {
   } catch {
     throw new PublicError("Origen de solicitud no válido.", 403);
   }
-  const forwardedHost = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
-  const expectedHost = (forwardedHost || request.headers.get("host") || new URL(request.url).host).toLowerCase();
-  if (originUrl.host.toLowerCase() !== expectedHost) {
+  const requestUrl = new URL(request.url);
+  if (originUrl.origin !== requestUrl.origin) {
     throw new PublicError("Solicitud rechazada por seguridad. Actualiza la página e inténtalo nuevamente.", 403);
   }
   if (originUrl.protocol !== "https:" && !["localhost", "127.0.0.1"].includes(originUrl.hostname)) {

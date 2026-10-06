@@ -1,0 +1,45 @@
+﻿"pregunta";"opcion_a";"opcion_b";"opcion_c";"opcion_d";"correcta";"explicacion";"formato";"contexto";"fuente";"mezclar_alternativas"
+"Experiencia 3: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?";"Cambiar solo el agua y mantener las otras condiciones iguales.";"Cambiar agua, luz y suelo a la vez.";"Concluir antes de observar.";"Omitir el registro de las semillas.";"A";"Una sola variable modificada permite comparar el efecto del agua.";"Selección directa";"";"Material de prueba QA · Experiencia 3 · Sección 1";"Sí"
+"Experiencia 3: ¿Qué instrumento permite medir el volumen de agua?";"Una balanza sin recipiente.";"Una probeta graduada.";"Un termómetro.";"Un cronómetro.";"B";"La probeta graduada permite leer el volumen del líquido.";"Selección directa";"";"Material de prueba QA · Experiencia 3 · Sección 2";"Sí"
+"Experiencia 3: ¿Qué dato representa una observación medible?";"La planta debería crecer.";"La planta es la mejor.";"La planta creció 3 centímetros.";"La planta parece feliz.";"C";"Los centímetros expresan una medida verificable.";"Selección directa";"";"Material de prueba QA · Experiencia 3 · Sección 3";"Sí"
+"Experiencia 3: ¿Qué evidencia ayuda a comparar dos experimentos?";"Opiniones sin registros.";"Solo el nombre de los participantes.";"Resultados elegidos para confirmar una idea.";"Registros obtenidos con el mismo procedimiento.";"D";"Un procedimiento comparable y registros completos permiten contrastar resultados.";"Selección directa";"";"Material de prueba QA · Experiencia 3 · Sección 4";"Sí"
+"Experiencia 3: La cantidad de agua que se cambia entre dos grupos es la variable ______.";"independiente";"dependiente";"inexistente";"de conclusión";"A";"La variable independiente es la que se modifica deliberadamente.";"Completar";"";"Material de prueba QA · Experiencia 3 · Sección 5";"Sí"
+"Experiencia 3: La longitud de la planta, medida cada día, constituye un ______.";"comprobante";"dato";"supuesto sin comprobar";"nombre de grupo";"B";"La longitud medida es un dato registrado del experimento.";"Completar";"";"Material de prueba QA · Experiencia 3 · Sección 6";"Sí"
+"Experiencia 3: Para comunicar una medición de longitud se indica el número y la ______.";"opinión";"clave del estudiante";"unidad";"contraseña";"C";"Una medición necesita valor y unidad para interpretarse.";"Completar";"";"Material de prueba QA · Experiencia 3 · Sección 7";"Sí"
+"Experiencia 3: Una conclusión del experimento debe apoyarse en la ______ registrada.";"preferencia";"predicción sin comprobar";"lista de asistentes";"evidencia";"D";"La conclusión utiliza la evidencia obtenida y registrada.";"Completar";"";"Material de prueba QA · Experiencia 3 · Sección 8";"Sí"
+"Experiencia 3: Relaciona instrumento y magnitud.
+Lista 1: 1. Termómetro. 2. Cronómetro.
+Lista 2: a. Tiempo. b. Temperatura.";"1-b; 2-a";"1-a; 2-b";"1-a; 2-a";"1-b; 2-b";"A";"El termómetro mide temperatura y el cronómetro mide tiempo.";"Relacionar";"";"Material de prueba QA · Experiencia 3 · Sección 9";"No"
+"Experiencia 3: Relaciona acción y finalidad.
+Lista 1: 1. Observar. 2. Registrar.
+Lista 2: a. Conservar datos. b. Examinar cambios.";"1-b; 2-b";"1-b; 2-a";"1-a; 2-b";"1-a; 2-a";"B";"Observar examina cambios; registrar conserva los datos.";"Relacionar";"";"Material de prueba QA · Experiencia 3 · Sección 10";"No"
+"Experiencia 3: Relaciona unidad y magnitud.
+Lista 1: 1. Centímetro. 2. Segundo.
+Lista 2: a. Tiempo. b. Longitud.";"1-a; 2-a";"1-b; 2-b";"1-b; 2-a";"1-a; 2-b";"C";"El centímetro expresa longitud y el segundo expresa tiempo.";"Relacionar";"";"Material de prueba QA · Experiencia 3 · Sección 11";"No"
+"Experiencia 3: Relaciona registro y propósito.
+Lista 1: 1. Tabla de datos. 2. Gráfico.
+Lista 2: a. Visualizar una comparación. b. Conservar valores organizados.";"1-a; 2-b";"1-a; 2-a";"1-b; 2-b";"1-b; 2-a";"D";"La tabla conserva valores y el gráfico facilita su comparación.";"Relacionar";"";"Material de prueba QA · Experiencia 3 · Sección 12";"No"
+"Experiencia 3: Ordena una investigación breve.
+1. Comunicar resultados.
+2. Observar y registrar.
+3. Preparar las condiciones.";"3 → 2 → 1";"1 → 2 → 3";"2 → 1 → 3";"3 → 1 → 2";"A";"Primero se prepara, después se observa y finalmente se comunica.";"Ordenar";"";"Material de prueba QA · Experiencia 3 · Sección 13";"No"
+"Experiencia 3: Ordena una medición.
+1. Anotar el valor y la unidad.
+2. Leer la escala.
+3. Elegir el instrumento adecuado.";"3 → 1 → 2";"3 → 2 → 1";"1 → 2 → 3";"2 → 1 → 3";"B";"Elegir el instrumento precede a leerlo y registrar el resultado.";"Ordenar";"";"Material de prueba QA · Experiencia 3 · Sección 14";"No"
+"Experiencia 3: Ordena el análisis de una tabla.
+1. Elaborar una conclusión.
+2. Comparar los valores.
+3. Revisar los registros completos.";"2 → 1 → 3";"3 → 1 → 2";"3 → 2 → 1";"1 → 2 → 3";"C";"Revisar los datos permite compararlos antes de concluir.";"Ordenar";"";"Material de prueba QA · Experiencia 3 · Sección 15";"No"
+"Experiencia 3: Ordena la revisión de un experimento.
+1. Repetir con condiciones controladas.
+2. Identificar el cambio inesperado.
+3. Revisar el procedimiento registrado.";"1 → 2 → 3";"2 → 1 → 3";"3 → 1 → 2";"3 → 2 → 1";"D";"Se revisa el registro, se identifica el problema y se repite controlando condiciones.";"Ordenar";"";"Material de prueba QA · Experiencia 3 · Sección 16";"No"
+"Experiencia 3: ¿Qué decisión permite comparar el efecto del agua?";"Mantener iguales la luz, las semillas y el suelo.";"Cambiar también el tipo de semilla.";"Omitir el grupo de comparación.";"Eliminar las mediciones que no coincidan.";"A";"Para comparar el efecto del agua deben controlarse las otras condiciones.";"Caso práctico";"Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.";"Material de prueba QA · Experiencia 3 · Sección 17";"Sí"
+"Experiencia 3: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?";"Cambiar la pregunta sin registrar el cambio.";"Comparar los registros de ambos grupos.";"Elegir el resultado más conveniente.";"Usar solo el primer día.";"B";"Comparar todos los registros permite fundamentar la conclusión.";"Caso práctico";"Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.";"Material de prueba QA · Experiencia 3 · Sección 18";"Sí"
+"Experiencia 3: ¿Cómo debe tratarse una medición inesperada?";"Sustituirla por la predicción.";"Copiar el valor de otro equipo.";"Revisar el instrumento y conservar el registro de la revisión.";"Borrarla sin anotarlo.";"C";"La revisión transparente conserva la evidencia y permite explicar errores.";"Caso práctico";"Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.";"Material de prueba QA · Experiencia 3 · Sección 19";"Sí"
+"Experiencia 3: ¿Qué registro mejora la posibilidad de repetir la experiencia?";"Solo la conclusión final.";"Solo los nombres del equipo.";"Solo la respuesta preferida.";"Materiales, procedimiento, condiciones y datos obtenidos.";"D";"Un registro del procedimiento y las condiciones permite repetir la experiencia.";"Caso práctico";"Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.
+El registro conserva las condiciones de luz y suelo.";"Material de prueba QA · Experiencia 3 · Sección 20";"Sí"

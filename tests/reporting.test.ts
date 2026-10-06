@@ -1,0 +1,9 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { completedReportAttempts, studentReportSummaries } from '../lib/reporting.ts';
+import { emptyFilters } from '../lib/record-lists.ts';
+const students=[{id:'s1',role:'student',full_name:'Simón',email:'s1@example.test',group_id:'g2'},{id:'s2',role:'student',full_name:'María',email:'s2@example.test',group_id:'g1'},{id:'teacher',role:'admin',full_name:'Profesor',email:'p@example.test'}];
+const row=(score:unknown,status='finalized',at='2026-10-01T15:00:00Z')=>({created_by:'s1',created_at:at,status,data:{score,completedAt:at,passed:Number(score)>=14}});
+test('reports exclude unfinished/invalid grades, keep true zero scores and order completed attempts',()=>{const rows=completedReportAttempts([row(0,'in_progress'),row(20),row(0,'finalized','2026-10-02 15:00:00'),row(99),row('20'),row(Number.NaN)]);assert.equal(rows.length,2);assert.equal(rows[0].data.score,0);const summary=studentReportSummaries(students,rows,emptyFilters);assert.equal(summary.length,2);assert.equal(summary[0].average,10);assert.equal(summary[0].attempts,2);assert.equal(summary[0].best,20);assert.equal(summary[1].attempts,0);});
+test('filtered summaries include historical group attempts after a roster transfer',()=>{const rows=completedReportAttempts([row(18)]),summaries=studentReportSummaries(students,rows,{...emptyFilters,group:'g1',from:'2026-10-01'});assert.equal(summaries.length,1);assert.equal(summaries[0].student.id,'s1');assert.equal(summaries[0].average,18);});
+test('search includes zero-attempt students by normalized name but grade/date filters require attempts',()=>{assert.equal(studentReportSummaries(students,[],{...emptyFilters,query:'simon'}).length,1);assert.equal(studentReportSummaries(students,[],{...emptyFilters,status:'passed'}).length,0);assert.equal(studentReportSummaries(students,[],{...emptyFilters,period:'2026'}).length,0);});

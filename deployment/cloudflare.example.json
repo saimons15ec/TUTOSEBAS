@@ -1,0 +1,17 @@
+{
+  "name": "tutosebas",
+  "main": "vinext/server/fetch-handler",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [{ "binding": "DB", "database_name": "tutosebas-production", "database_id": "REEMPLAZAR_CON_ID_REAL", "migrations_dir": "../drizzle" }],
+  "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "tutosebas-private-files" }],
+  "vars": {
+    "APP_DEPLOYMENT": "independent",
+    "APP_AUTH_MODE": "password",
+    "APP_ORIGIN": "https://REEMPLAZAR_CON_DOMINIO",
+    "SUPABASE_URL": "https://REEMPLAZAR_CON_PROYECTO.supabase.co",
+    "ADMIN_EMAILS": "REEMPLAZAR_CON_CORREO_ADMINISTRADOR"
+  },
+  "observability": { "enabled": true },
+  "workers_dev": true
+}

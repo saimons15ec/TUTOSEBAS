@@ -1,6 +1,11 @@
 import { bucket, context, parse, text } from "@/lib/uic";
-import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, canSubmitWorkForGroup, inspectUpload, isPlanActive, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
+import { assertActiveStudent, assertTrustedMutation, canAccessPaymentRecord, canSubmitWorkForGroup, inspectUpload, MAX_UPLOAD_BYTES, objectKeyMatches, publicIssue, readBoundedBytes, storedObjectKey, type UploadKind } from "@/lib/security";
 import { enforceRateLimit, maybeRunSecurityMaintenance, registerFile, sha256Hex, verifiedRegisteredFile, writeAudit } from "@/lib/security-storage";
+
+import { canReadPublishedSupport } from "@/lib/content-access";
+import { loadPlanCatalog } from "@/lib/plans-storage";
+import { loadResourceSections } from "@/lib/resource-sections-storage";
+import { fileDisposition, fileViewKind, singleFileRange } from "@/lib/file-view";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +40,7 @@ export async function POST(request: Request) {
       assertActiveStudent(current.profile.role, current.profile.status);
       const group = await current.database.prepare("SELECT data_json FROM records WHERE id=? AND kind='group' LIMIT 1").bind(current.profile.group_id).first<{ data_json: string }>();
       if (!group) return fail("Tu grupo no está disponible.", 403);
-      if (kind === "submission" && !canSubmitWorkForGroup(parse<Record<string, unknown>>(group.data_json, {}))) {
+      if (kind === "submission" && !canSubmitWorkForGroup(parse<Record<string, unknown>>(group.data_json, {}), Date.now(), await loadPlanCatalog(current.database))) {
         return fail("Tu plan no incluye revisión de trabajos.", 403);
       }
     }
@@ -106,37 +111,68 @@ export async function GET(request: Request) {
       if (!current.profile.group_id) return fail("No tienes permiso para abrir este archivo.", 403);
       if (parsedKey.kind === "payment" && !canAccessPaymentRecord(current.profile.role, current.profile.member_role)) return fail("Solo el coordinador puede abrir comprobantes de pago.", 403);
       if (parsedKey.kind === "material" && objectKeyMatches(key, "material", "shared")) {
-        const resource = await current.database.prepare("SELECT id,kind,status,data_json FROM records WHERE status='published' AND json_extract(data_json,'$.fileKey')=? LIMIT 1").bind(key).first<{ id: string; kind: string; status: string; data_json: string }>();
-        if (!resource) return fail("No tienes permiso para abrir este archivo.", 403);
+        type Support = { id: string; kind: string; title: string; status: string; data_json: string };
+        const linked = await current.database.prepare("SELECT id,kind,title,status,data_json FROM records WHERE kind IN ('resource','course','course_lesson') AND status='published' AND json_extract(data_json,'$.fileKey')=?").bind(key).all<Support>();
         const group = await current.database.prepare("SELECT data_json FROM records WHERE id=? AND kind='group'").bind(current.profile.group_id).first<{ data_json: string }>();
-        const resourceData = parse<Record<string, unknown>>(resource.data_json, {});
+        const period = await current.database.prepare("SELECT title FROM records WHERE kind='period' AND json_extract(data_json,'$.current')=1 LIMIT 1").first<{ title: string }>();
+        const activePeriod = period?.title || "2026-2027";
         const groupData = group ? parse<Record<string, unknown>>(group.data_json, {}) : {};
-        const permissions = Array.isArray(groupData.permissions) ? groupData.permissions.map(String) : [];
-        const ranks: Record<string, number> = { "Sin plan": 0, Bronce: 1, Plata: 2, Gold: 3 };
-        const planActive = isPlanActive(groupData.planStatus, groupData.endsAt);
-        const allowed = permissions.includes("all") || permissions.includes(resource.id) || permissions.includes(resource.kind) || permissions.includes(String(resourceData.area ?? "")) || (planActive && (ranks[String(groupData.plan ?? "Sin plan")] ?? 0) >= (ranks[String(resourceData.plan ?? "Bronce")] ?? 1));
+        const [plans, { sections }] = await Promise.all([loadPlanCatalog(current.database), loadResourceSections(current.database, activePeriod)]);
+        let allowed = false;
+        for (const resource of linked.results) {
+          const data = parse<Record<string, unknown>>(resource.data_json, {});
+          if (resource.kind === "course_lesson") {
+            if (data.period !== activePeriod) continue;
+            const parent = await current.database.prepare("SELECT id,kind,title,status,data_json FROM records WHERE id=? AND kind='course'").bind(String(data.courseId || "")).first<Support>();
+            if (parent && canReadPublishedSupport({ ...parent, data: parse<Record<string, unknown>>(parent.data_json, {}) }, groupData, activePeriod, plans, sections)) { allowed = true; break; }
+          } else if (canReadPublishedSupport({ ...resource, data }, groupData, activePeriod, plans, sections)) { allowed = true; break; }
+        }
         if (!allowed) return fail("Tu plan no incluye este archivo.", 403);
       } else {
         if (parsedKey.groupId !== current.profile.group_id) return fail("No tienes permiso para abrir este archivo.", 403);
         const linked = await current.database.prepare(`
           SELECT id FROM records
           WHERE group_id=? AND (
-            (kind='submission' AND (json_extract(data_json,'$.fileKey')=? OR json_extract(data_json,'$.reviewFileKey')=?))
+            (kind='submission' AND (json_extract(data_json,'$.fileKey')=? OR json_extract(data_json,'$.reviewFileKey')=? OR EXISTS(SELECT 1 FROM json_each(COALESCE(json_extract(records.data_json,'$.workHistory'),'[]')) AS version WHERE json_extract(version.value,'$.fileKey')=? AND json_extract(version.value,'$.event')=?)))
             OR (kind='payment' AND json_extract(data_json,'$.proofKey')=?)
           ) LIMIT 1
-        `).bind(current.profile.group_id, key, key, key).first();
+        `).bind(current.profile.group_id, key, key, key, parsedKey.kind === "review" ? "review" : "submission", key).first();
         if (!linked) return fail("No tienes permiso para abrir este archivo.", 403);
       }
     }
 
-    const object = await bucket().get(key);
+    const inventory = await current.database.prepare("SELECT stored_name,content_type,size_bytes FROM file_objects WHERE object_key=? AND status='active' LIMIT 1").bind(key).first<{ stored_name: string; content_type: string; size_bytes: number }>();
+    if (!inventory) return fail("El registro de seguridad del archivo no es válido.", 403);
+    const view = new URL(request.url).searchParams.get("view"), inline = view === "inline", mode = fileViewKind(inventory.content_type);
+    if (view && !["inline", "metadata"].includes(view)) return fail("Opción de consulta no válida.");
+    if (view && !mode) return fail("Este formato se consulta descargando el archivo.", 415);
+    if (view === "metadata") {
+      const object = await bucket().head(key);
+      if (!object) return fail("Archivo no encontrado.", 404);
+      return Response.json({ kind: mode, contentType: inventory.content_type, size: inventory.size_bytes }, { headers: { "cache-control": "private, no-store", "x-content-type-options": "nosniff" } });
+    }
+    let rangeHeader = request.headers.get("range");
+    if (rangeHeader && request.headers.has("if-range")) {
+      const object = await bucket().head(key);
+      if (!object) return fail("Archivo no encontrado.", 404);
+      if (request.headers.get("if-range") !== object.httpEtag) rangeHeader = null;
+    }
+    const range = singleFileRange(rangeHeader, inventory.size_bytes);
+    if (range === "invalid") return new Response(null, { status: 416, headers: { "content-range": `bytes */${inventory.size_bytes}`, "cache-control": "private, no-store", "accept-ranges": "bytes" } });
+    const object = await bucket().get(key, range ? { range } : undefined);
     if (!object) return fail("Archivo no encontrado.", 404);
+    if (typeof object.size === "number" && object.size !== inventory.size_bytes) return fail("El archivo no coincide con su registro. Comunícalo al profesor.", 409);
     const headers = new Headers();
     object.writeHttpMetadata(headers);
+    headers.set("content-type", inventory.content_type);
+    headers.set("content-disposition", fileDisposition(inventory.stored_name, inline));
+    headers.set("accept-ranges", "bytes");
+    headers.set("content-length", String(range ? range.length : inventory.size_bytes));
+    if (range) headers.set("content-range", `bytes ${range.offset}-${range.offset + range.length - 1}/${inventory.size_bytes}`);
     headers.set("etag", object.httpEtag);
     headers.set("cache-control", "private, no-store");
     headers.set("x-content-type-options", "nosniff");
-    return new Response(object.body, { headers });
+    return new Response(object.body, { status: range ? 206 : 200, headers });
   } catch (error) {
     const issue = publicIssue(error, "No se pudo abrir el archivo.");
     return fail(issue.message, issue.status);

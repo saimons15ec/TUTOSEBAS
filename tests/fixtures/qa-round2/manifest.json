@@ -1,0 +1,1409 @@
+{
+  "label": "TUTOSEBAS · segunda ronda de QA",
+  "synthetic": true,
+  "period": "2026-2027",
+  "blocks": [
+    {
+      "id": "bloque-01",
+      "subject": "Didáctica de Ciencias Naturales QA",
+      "topic": "Tema 1 · Observación",
+      "count": 20,
+      "formatCounts": {
+        "Selección directa": 4,
+        "Completar": 4,
+        "Relacionar": 4,
+        "Ordenar": 4,
+        "Caso práctico": 4
+      },
+      "questions": [
+        {
+          "prompt": "Experiencia 1: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?",
+          "options": [
+            "Cambiar solo el agua y mantener las otras condiciones iguales.",
+            "Cambiar agua, luz y suelo a la vez.",
+            "Concluir antes de observar.",
+            "Omitir el registro de las semillas."
+          ],
+          "correctIndex": 0,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Una sola variable modificada permite comparar el efecto del agua.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 1",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué instrumento permite medir el volumen de agua?",
+          "options": [
+            "Una balanza sin recipiente.",
+            "Una probeta graduada.",
+            "Un termómetro.",
+            "Un cronómetro."
+          ],
+          "correctIndex": 1,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "La probeta graduada permite leer el volumen del líquido.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 2",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué dato representa una observación medible?",
+          "options": [
+            "La planta debería crecer.",
+            "La planta es la mejor.",
+            "La planta creció 3 centímetros.",
+            "La planta parece feliz."
+          ],
+          "correctIndex": 2,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Los centímetros expresan una medida verificable.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 3",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué evidencia ayuda a comparar dos experimentos?",
+          "options": [
+            "Opiniones sin registros.",
+            "Solo el nombre de los participantes.",
+            "Resultados elegidos para confirmar una idea.",
+            "Registros obtenidos con el mismo procedimiento."
+          ],
+          "correctIndex": 3,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Un procedimiento comparable y registros completos permiten contrastar resultados.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 4",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: La cantidad de agua que se cambia entre dos grupos es la variable ______.",
+          "options": [
+            "independiente",
+            "dependiente",
+            "inexistente",
+            "de conclusión"
+          ],
+          "correctIndex": 0,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La variable independiente es la que se modifica deliberadamente.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 5",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: La longitud de la planta, medida cada día, constituye un ______.",
+          "options": [
+            "comprobante",
+            "dato",
+            "supuesto sin comprobar",
+            "nombre de grupo"
+          ],
+          "correctIndex": 1,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La longitud medida es un dato registrado del experimento.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 6",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: Para comunicar una medición de longitud se indica el número y la ______.",
+          "options": [
+            "opinión",
+            "clave del estudiante",
+            "unidad",
+            "contraseña"
+          ],
+          "correctIndex": 2,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "Una medición necesita valor y unidad para interpretarse.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 7",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: Una conclusión del experimento debe apoyarse en la ______ registrada.",
+          "options": [
+            "preferencia",
+            "predicción sin comprobar",
+            "lista de asistentes",
+            "evidencia"
+          ],
+          "correctIndex": 3,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La conclusión utiliza la evidencia obtenida y registrada.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 8",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: Relaciona instrumento y magnitud.\nLista 1: 1. Termómetro. 2. Cronómetro.\nLista 2: a. Tiempo. b. Temperatura.",
+          "options": [
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b"
+          ],
+          "correctIndex": 0,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El termómetro mide temperatura y el cronómetro mide tiempo.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 9",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Relaciona acción y finalidad.\nLista 1: 1. Observar. 2. Registrar.\nLista 2: a. Conservar datos. b. Examinar cambios.",
+          "options": [
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a"
+          ],
+          "correctIndex": 1,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "Observar examina cambios; registrar conserva los datos.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 10",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Relaciona unidad y magnitud.\nLista 1: 1. Centímetro. 2. Segundo.\nLista 2: a. Tiempo. b. Longitud.",
+          "options": [
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b"
+          ],
+          "correctIndex": 2,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El centímetro expresa longitud y el segundo expresa tiempo.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 11",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Relaciona registro y propósito.\nLista 1: 1. Tabla de datos. 2. Gráfico.\nLista 2: a. Visualizar una comparación. b. Conservar valores organizados.",
+          "options": [
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a"
+          ],
+          "correctIndex": 3,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "La tabla conserva valores y el gráfico facilita su comparación.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 12",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Ordena una investigación breve.\n1. Comunicar resultados.\n2. Observar y registrar.\n3. Preparar las condiciones.",
+          "options": [
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2"
+          ],
+          "correctIndex": 0,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Primero se prepara, después se observa y finalmente se comunica.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 13",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Ordena una medición.\n1. Anotar el valor y la unidad.\n2. Leer la escala.\n3. Elegir el instrumento adecuado.",
+          "options": [
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3"
+          ],
+          "correctIndex": 1,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Elegir el instrumento precede a leerlo y registrar el resultado.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 14",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Ordena el análisis de una tabla.\n1. Elaborar una conclusión.\n2. Comparar los valores.\n3. Revisar los registros completos.",
+          "options": [
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3"
+          ],
+          "correctIndex": 2,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Revisar los datos permite compararlos antes de concluir.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 15",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: Ordena la revisión de un experimento.\n1. Repetir con condiciones controladas.\n2. Identificar el cambio inesperado.\n3. Revisar el procedimiento registrado.",
+          "options": [
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1"
+          ],
+          "correctIndex": 3,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Se revisa el registro, se identifica el problema y se repite controlando condiciones.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 16",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué decisión permite comparar el efecto del agua?",
+          "options": [
+            "Mantener iguales la luz, las semillas y el suelo.",
+            "Cambiar también el tipo de semilla.",
+            "Omitir el grupo de comparación.",
+            "Eliminar las mediciones que no coincidan."
+          ],
+          "correctIndex": 0,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 1 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Para comparar el efecto del agua deben controlarse las otras condiciones.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 17",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?",
+          "options": [
+            "Cambiar la pregunta sin registrar el cambio.",
+            "Comparar los registros de ambos grupos.",
+            "Elegir el resultado más conveniente.",
+            "Usar solo el primer día."
+          ],
+          "correctIndex": 1,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 1 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Comparar todos los registros permite fundamentar la conclusión.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 18",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Cómo debe tratarse una medición inesperada?",
+          "options": [
+            "Sustituirla por la predicción.",
+            "Copiar el valor de otro equipo.",
+            "Revisar el instrumento y conservar el registro de la revisión.",
+            "Borrarla sin anotarlo."
+          ],
+          "correctIndex": 2,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 1 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "La revisión transparente conserva la evidencia y permite explicar errores.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 19",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 1: ¿Qué registro mejora la posibilidad de repetir la experiencia?",
+          "options": [
+            "Solo la conclusión final.",
+            "Solo los nombres del equipo.",
+            "Solo la respuesta preferida.",
+            "Materiales, procedimiento, condiciones y datos obtenidos."
+          ],
+          "correctIndex": 3,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 1 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Un registro del procedimiento y las condiciones permite repetir la experiencia.",
+          "source": "Material de prueba QA · Experiencia 1 · Sección 20",
+          "shuffleOptions": true
+        }
+      ]
+    },
+    {
+      "id": "bloque-02",
+      "subject": "Didáctica de Ciencias Naturales QA",
+      "topic": "Tema 2 · Experimentos",
+      "count": 20,
+      "formatCounts": {
+        "Selección directa": 4,
+        "Completar": 4,
+        "Relacionar": 4,
+        "Ordenar": 4,
+        "Caso práctico": 4
+      },
+      "questions": [
+        {
+          "prompt": "Experiencia 2: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?",
+          "options": [
+            "Cambiar solo el agua y mantener las otras condiciones iguales.",
+            "Cambiar agua, luz y suelo a la vez.",
+            "Concluir antes de observar.",
+            "Omitir el registro de las semillas."
+          ],
+          "correctIndex": 0,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Una sola variable modificada permite comparar el efecto del agua.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 1",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué instrumento permite medir el volumen de agua?",
+          "options": [
+            "Una balanza sin recipiente.",
+            "Una probeta graduada.",
+            "Un termómetro.",
+            "Un cronómetro."
+          ],
+          "correctIndex": 1,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "La probeta graduada permite leer el volumen del líquido.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 2",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué dato representa una observación medible?",
+          "options": [
+            "La planta debería crecer.",
+            "La planta es la mejor.",
+            "La planta creció 3 centímetros.",
+            "La planta parece feliz."
+          ],
+          "correctIndex": 2,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Los centímetros expresan una medida verificable.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 3",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué evidencia ayuda a comparar dos experimentos?",
+          "options": [
+            "Opiniones sin registros.",
+            "Solo el nombre de los participantes.",
+            "Resultados elegidos para confirmar una idea.",
+            "Registros obtenidos con el mismo procedimiento."
+          ],
+          "correctIndex": 3,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Un procedimiento comparable y registros completos permiten contrastar resultados.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 4",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: La cantidad de agua que se cambia entre dos grupos es la variable ______.",
+          "options": [
+            "independiente",
+            "dependiente",
+            "inexistente",
+            "de conclusión"
+          ],
+          "correctIndex": 0,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La variable independiente es la que se modifica deliberadamente.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 5",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: La longitud de la planta, medida cada día, constituye un ______.",
+          "options": [
+            "comprobante",
+            "dato",
+            "supuesto sin comprobar",
+            "nombre de grupo"
+          ],
+          "correctIndex": 1,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La longitud medida es un dato registrado del experimento.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 6",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: Para comunicar una medición de longitud se indica el número y la ______.",
+          "options": [
+            "opinión",
+            "clave del estudiante",
+            "unidad",
+            "contraseña"
+          ],
+          "correctIndex": 2,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "Una medición necesita valor y unidad para interpretarse.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 7",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: Una conclusión del experimento debe apoyarse en la ______ registrada.",
+          "options": [
+            "preferencia",
+            "predicción sin comprobar",
+            "lista de asistentes",
+            "evidencia"
+          ],
+          "correctIndex": 3,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La conclusión utiliza la evidencia obtenida y registrada.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 8",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: Relaciona instrumento y magnitud.\nLista 1: 1. Termómetro. 2. Cronómetro.\nLista 2: a. Tiempo. b. Temperatura.",
+          "options": [
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b"
+          ],
+          "correctIndex": 0,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El termómetro mide temperatura y el cronómetro mide tiempo.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 9",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Relaciona acción y finalidad.\nLista 1: 1. Observar. 2. Registrar.\nLista 2: a. Conservar datos. b. Examinar cambios.",
+          "options": [
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a"
+          ],
+          "correctIndex": 1,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "Observar examina cambios; registrar conserva los datos.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 10",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Relaciona unidad y magnitud.\nLista 1: 1. Centímetro. 2. Segundo.\nLista 2: a. Tiempo. b. Longitud.",
+          "options": [
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b"
+          ],
+          "correctIndex": 2,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El centímetro expresa longitud y el segundo expresa tiempo.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 11",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Relaciona registro y propósito.\nLista 1: 1. Tabla de datos. 2. Gráfico.\nLista 2: a. Visualizar una comparación. b. Conservar valores organizados.",
+          "options": [
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a"
+          ],
+          "correctIndex": 3,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "La tabla conserva valores y el gráfico facilita su comparación.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 12",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Ordena una investigación breve.\n1. Comunicar resultados.\n2. Observar y registrar.\n3. Preparar las condiciones.",
+          "options": [
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2"
+          ],
+          "correctIndex": 0,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Primero se prepara, después se observa y finalmente se comunica.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 13",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Ordena una medición.\n1. Anotar el valor y la unidad.\n2. Leer la escala.\n3. Elegir el instrumento adecuado.",
+          "options": [
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3"
+          ],
+          "correctIndex": 1,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Elegir el instrumento precede a leerlo y registrar el resultado.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 14",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Ordena el análisis de una tabla.\n1. Elaborar una conclusión.\n2. Comparar los valores.\n3. Revisar los registros completos.",
+          "options": [
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3"
+          ],
+          "correctIndex": 2,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Revisar los datos permite compararlos antes de concluir.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 15",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: Ordena la revisión de un experimento.\n1. Repetir con condiciones controladas.\n2. Identificar el cambio inesperado.\n3. Revisar el procedimiento registrado.",
+          "options": [
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1"
+          ],
+          "correctIndex": 3,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Se revisa el registro, se identifica el problema y se repite controlando condiciones.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 16",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué decisión permite comparar el efecto del agua?",
+          "options": [
+            "Mantener iguales la luz, las semillas y el suelo.",
+            "Cambiar también el tipo de semilla.",
+            "Omitir el grupo de comparación.",
+            "Eliminar las mediciones que no coincidan."
+          ],
+          "correctIndex": 0,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 2 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Para comparar el efecto del agua deben controlarse las otras condiciones.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 17",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?",
+          "options": [
+            "Cambiar la pregunta sin registrar el cambio.",
+            "Comparar los registros de ambos grupos.",
+            "Elegir el resultado más conveniente.",
+            "Usar solo el primer día."
+          ],
+          "correctIndex": 1,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 2 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Comparar todos los registros permite fundamentar la conclusión.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 18",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Cómo debe tratarse una medición inesperada?",
+          "options": [
+            "Sustituirla por la predicción.",
+            "Copiar el valor de otro equipo.",
+            "Revisar el instrumento y conservar el registro de la revisión.",
+            "Borrarla sin anotarlo."
+          ],
+          "correctIndex": 2,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 2 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "La revisión transparente conserva la evidencia y permite explicar errores.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 19",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 2: ¿Qué registro mejora la posibilidad de repetir la experiencia?",
+          "options": [
+            "Solo la conclusión final.",
+            "Solo los nombres del equipo.",
+            "Solo la respuesta preferida.",
+            "Materiales, procedimiento, condiciones y datos obtenidos."
+          ],
+          "correctIndex": 3,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 2 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Un registro del procedimiento y las condiciones permite repetir la experiencia.",
+          "source": "Material de prueba QA · Experiencia 2 · Sección 20",
+          "shuffleOptions": true
+        }
+      ]
+    },
+    {
+      "id": "bloque-03",
+      "subject": "Investigación Educativa QA",
+      "topic": "Tema 1 · Registro",
+      "count": 20,
+      "formatCounts": {
+        "Selección directa": 4,
+        "Completar": 4,
+        "Relacionar": 4,
+        "Ordenar": 4,
+        "Caso práctico": 4
+      },
+      "questions": [
+        {
+          "prompt": "Experiencia 3: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?",
+          "options": [
+            "Cambiar solo el agua y mantener las otras condiciones iguales.",
+            "Cambiar agua, luz y suelo a la vez.",
+            "Concluir antes de observar.",
+            "Omitir el registro de las semillas."
+          ],
+          "correctIndex": 0,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Una sola variable modificada permite comparar el efecto del agua.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 1",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué instrumento permite medir el volumen de agua?",
+          "options": [
+            "Una balanza sin recipiente.",
+            "Una probeta graduada.",
+            "Un termómetro.",
+            "Un cronómetro."
+          ],
+          "correctIndex": 1,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "La probeta graduada permite leer el volumen del líquido.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 2",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué dato representa una observación medible?",
+          "options": [
+            "La planta debería crecer.",
+            "La planta es la mejor.",
+            "La planta creció 3 centímetros.",
+            "La planta parece feliz."
+          ],
+          "correctIndex": 2,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Los centímetros expresan una medida verificable.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 3",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué evidencia ayuda a comparar dos experimentos?",
+          "options": [
+            "Opiniones sin registros.",
+            "Solo el nombre de los participantes.",
+            "Resultados elegidos para confirmar una idea.",
+            "Registros obtenidos con el mismo procedimiento."
+          ],
+          "correctIndex": 3,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Un procedimiento comparable y registros completos permiten contrastar resultados.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 4",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: La cantidad de agua que se cambia entre dos grupos es la variable ______.",
+          "options": [
+            "independiente",
+            "dependiente",
+            "inexistente",
+            "de conclusión"
+          ],
+          "correctIndex": 0,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La variable independiente es la que se modifica deliberadamente.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 5",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: La longitud de la planta, medida cada día, constituye un ______.",
+          "options": [
+            "comprobante",
+            "dato",
+            "supuesto sin comprobar",
+            "nombre de grupo"
+          ],
+          "correctIndex": 1,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La longitud medida es un dato registrado del experimento.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 6",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: Para comunicar una medición de longitud se indica el número y la ______.",
+          "options": [
+            "opinión",
+            "clave del estudiante",
+            "unidad",
+            "contraseña"
+          ],
+          "correctIndex": 2,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "Una medición necesita valor y unidad para interpretarse.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 7",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: Una conclusión del experimento debe apoyarse en la ______ registrada.",
+          "options": [
+            "preferencia",
+            "predicción sin comprobar",
+            "lista de asistentes",
+            "evidencia"
+          ],
+          "correctIndex": 3,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La conclusión utiliza la evidencia obtenida y registrada.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 8",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: Relaciona instrumento y magnitud.\nLista 1: 1. Termómetro. 2. Cronómetro.\nLista 2: a. Tiempo. b. Temperatura.",
+          "options": [
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b"
+          ],
+          "correctIndex": 0,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El termómetro mide temperatura y el cronómetro mide tiempo.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 9",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Relaciona acción y finalidad.\nLista 1: 1. Observar. 2. Registrar.\nLista 2: a. Conservar datos. b. Examinar cambios.",
+          "options": [
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a"
+          ],
+          "correctIndex": 1,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "Observar examina cambios; registrar conserva los datos.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 10",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Relaciona unidad y magnitud.\nLista 1: 1. Centímetro. 2. Segundo.\nLista 2: a. Tiempo. b. Longitud.",
+          "options": [
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b"
+          ],
+          "correctIndex": 2,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El centímetro expresa longitud y el segundo expresa tiempo.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 11",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Relaciona registro y propósito.\nLista 1: 1. Tabla de datos. 2. Gráfico.\nLista 2: a. Visualizar una comparación. b. Conservar valores organizados.",
+          "options": [
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a"
+          ],
+          "correctIndex": 3,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "La tabla conserva valores y el gráfico facilita su comparación.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 12",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Ordena una investigación breve.\n1. Comunicar resultados.\n2. Observar y registrar.\n3. Preparar las condiciones.",
+          "options": [
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2"
+          ],
+          "correctIndex": 0,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Primero se prepara, después se observa y finalmente se comunica.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 13",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Ordena una medición.\n1. Anotar el valor y la unidad.\n2. Leer la escala.\n3. Elegir el instrumento adecuado.",
+          "options": [
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3"
+          ],
+          "correctIndex": 1,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Elegir el instrumento precede a leerlo y registrar el resultado.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 14",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Ordena el análisis de una tabla.\n1. Elaborar una conclusión.\n2. Comparar los valores.\n3. Revisar los registros completos.",
+          "options": [
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3"
+          ],
+          "correctIndex": 2,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Revisar los datos permite compararlos antes de concluir.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 15",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: Ordena la revisión de un experimento.\n1. Repetir con condiciones controladas.\n2. Identificar el cambio inesperado.\n3. Revisar el procedimiento registrado.",
+          "options": [
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1"
+          ],
+          "correctIndex": 3,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Se revisa el registro, se identifica el problema y se repite controlando condiciones.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 16",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué decisión permite comparar el efecto del agua?",
+          "options": [
+            "Mantener iguales la luz, las semillas y el suelo.",
+            "Cambiar también el tipo de semilla.",
+            "Omitir el grupo de comparación.",
+            "Eliminar las mediciones que no coincidan."
+          ],
+          "correctIndex": 0,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Para comparar el efecto del agua deben controlarse las otras condiciones.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 17",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?",
+          "options": [
+            "Cambiar la pregunta sin registrar el cambio.",
+            "Comparar los registros de ambos grupos.",
+            "Elegir el resultado más conveniente.",
+            "Usar solo el primer día."
+          ],
+          "correctIndex": 1,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Comparar todos los registros permite fundamentar la conclusión.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 18",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Cómo debe tratarse una medición inesperada?",
+          "options": [
+            "Sustituirla por la predicción.",
+            "Copiar el valor de otro equipo.",
+            "Revisar el instrumento y conservar el registro de la revisión.",
+            "Borrarla sin anotarlo."
+          ],
+          "correctIndex": 2,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "La revisión transparente conserva la evidencia y permite explicar errores.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 19",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 3: ¿Qué registro mejora la posibilidad de repetir la experiencia?",
+          "options": [
+            "Solo la conclusión final.",
+            "Solo los nombres del equipo.",
+            "Solo la respuesta preferida.",
+            "Materiales, procedimiento, condiciones y datos obtenidos."
+          ],
+          "correctIndex": 3,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 3 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Un registro del procedimiento y las condiciones permite repetir la experiencia.",
+          "source": "Material de prueba QA · Experiencia 3 · Sección 20",
+          "shuffleOptions": true
+        }
+      ]
+    },
+    {
+      "id": "bloque-04",
+      "subject": "Investigación Educativa QA",
+      "topic": "Tema 2 · Análisis",
+      "count": 20,
+      "formatCounts": {
+        "Selección directa": 4,
+        "Completar": 4,
+        "Relacionar": 4,
+        "Ordenar": 4,
+        "Caso práctico": 4
+      },
+      "questions": [
+        {
+          "prompt": "Experiencia 4: ¿Qué acción permite comprobar si la cantidad de agua influye en la germinación?",
+          "options": [
+            "Cambiar solo el agua y mantener las otras condiciones iguales.",
+            "Cambiar agua, luz y suelo a la vez.",
+            "Concluir antes de observar.",
+            "Omitir el registro de las semillas."
+          ],
+          "correctIndex": 0,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Una sola variable modificada permite comparar el efecto del agua.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 1",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué instrumento permite medir el volumen de agua?",
+          "options": [
+            "Una balanza sin recipiente.",
+            "Una probeta graduada.",
+            "Un termómetro.",
+            "Un cronómetro."
+          ],
+          "correctIndex": 1,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "La probeta graduada permite leer el volumen del líquido.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 2",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué dato representa una observación medible?",
+          "options": [
+            "La planta debería crecer.",
+            "La planta es la mejor.",
+            "La planta creció 3 centímetros.",
+            "La planta parece feliz."
+          ],
+          "correctIndex": 2,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Los centímetros expresan una medida verificable.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 3",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué evidencia ayuda a comparar dos experimentos?",
+          "options": [
+            "Opiniones sin registros.",
+            "Solo el nombre de los participantes.",
+            "Resultados elegidos para confirmar una idea.",
+            "Registros obtenidos con el mismo procedimiento."
+          ],
+          "correctIndex": 3,
+          "format": "Selección directa",
+          "caseContext": "",
+          "explanation": "Un procedimiento comparable y registros completos permiten contrastar resultados.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 4",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: La cantidad de agua que se cambia entre dos grupos es la variable ______.",
+          "options": [
+            "independiente",
+            "dependiente",
+            "inexistente",
+            "de conclusión"
+          ],
+          "correctIndex": 0,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La variable independiente es la que se modifica deliberadamente.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 5",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: La longitud de la planta, medida cada día, constituye un ______.",
+          "options": [
+            "comprobante",
+            "dato",
+            "supuesto sin comprobar",
+            "nombre de grupo"
+          ],
+          "correctIndex": 1,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La longitud medida es un dato registrado del experimento.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 6",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: Para comunicar una medición de longitud se indica el número y la ______.",
+          "options": [
+            "opinión",
+            "clave del estudiante",
+            "unidad",
+            "contraseña"
+          ],
+          "correctIndex": 2,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "Una medición necesita valor y unidad para interpretarse.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 7",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: Una conclusión del experimento debe apoyarse en la ______ registrada.",
+          "options": [
+            "preferencia",
+            "predicción sin comprobar",
+            "lista de asistentes",
+            "evidencia"
+          ],
+          "correctIndex": 3,
+          "format": "Completar",
+          "caseContext": "",
+          "explanation": "La conclusión utiliza la evidencia obtenida y registrada.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 8",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: Relaciona instrumento y magnitud.\nLista 1: 1. Termómetro. 2. Cronómetro.\nLista 2: a. Tiempo. b. Temperatura.",
+          "options": [
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b"
+          ],
+          "correctIndex": 0,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El termómetro mide temperatura y el cronómetro mide tiempo.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 9",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Relaciona acción y finalidad.\nLista 1: 1. Observar. 2. Registrar.\nLista 2: a. Conservar datos. b. Examinar cambios.",
+          "options": [
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b",
+            "1-a; 2-a"
+          ],
+          "correctIndex": 1,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "Observar examina cambios; registrar conserva los datos.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 10",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Relaciona unidad y magnitud.\nLista 1: 1. Centímetro. 2. Segundo.\nLista 2: a. Tiempo. b. Longitud.",
+          "options": [
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a",
+            "1-a; 2-b"
+          ],
+          "correctIndex": 2,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "El centímetro expresa longitud y el segundo expresa tiempo.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 11",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Relaciona registro y propósito.\nLista 1: 1. Tabla de datos. 2. Gráfico.\nLista 2: a. Visualizar una comparación. b. Conservar valores organizados.",
+          "options": [
+            "1-a; 2-b",
+            "1-a; 2-a",
+            "1-b; 2-b",
+            "1-b; 2-a"
+          ],
+          "correctIndex": 3,
+          "format": "Relacionar",
+          "caseContext": "",
+          "explanation": "La tabla conserva valores y el gráfico facilita su comparación.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 12",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Ordena una investigación breve.\n1. Comunicar resultados.\n2. Observar y registrar.\n3. Preparar las condiciones.",
+          "options": [
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2"
+          ],
+          "correctIndex": 0,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Primero se prepara, después se observa y finalmente se comunica.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 13",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Ordena una medición.\n1. Anotar el valor y la unidad.\n2. Leer la escala.\n3. Elegir el instrumento adecuado.",
+          "options": [
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3",
+            "2 → 1 → 3"
+          ],
+          "correctIndex": 1,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Elegir el instrumento precede a leerlo y registrar el resultado.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 14",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Ordena el análisis de una tabla.\n1. Elaborar una conclusión.\n2. Comparar los valores.\n3. Revisar los registros completos.",
+          "options": [
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1",
+            "1 → 2 → 3"
+          ],
+          "correctIndex": 2,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Revisar los datos permite compararlos antes de concluir.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 15",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: Ordena la revisión de un experimento.\n1. Repetir con condiciones controladas.\n2. Identificar el cambio inesperado.\n3. Revisar el procedimiento registrado.",
+          "options": [
+            "1 → 2 → 3",
+            "2 → 1 → 3",
+            "3 → 1 → 2",
+            "3 → 2 → 1"
+          ],
+          "correctIndex": 3,
+          "format": "Ordenar",
+          "caseContext": "",
+          "explanation": "Se revisa el registro, se identifica el problema y se repite controlando condiciones.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 16",
+          "shuffleOptions": false
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué decisión permite comparar el efecto del agua?",
+          "options": [
+            "Mantener iguales la luz, las semillas y el suelo.",
+            "Cambiar también el tipo de semilla.",
+            "Omitir el grupo de comparación.",
+            "Eliminar las mediciones que no coincidan."
+          ],
+          "correctIndex": 0,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 4 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Para comparar el efecto del agua deben controlarse las otras condiciones.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 17",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué debe hacerse antes de concluir que el tratamiento funciona?",
+          "options": [
+            "Cambiar la pregunta sin registrar el cambio.",
+            "Comparar los registros de ambos grupos.",
+            "Elegir el resultado más conveniente.",
+            "Usar solo el primer día."
+          ],
+          "correctIndex": 1,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 4 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Comparar todos los registros permite fundamentar la conclusión.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 18",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Cómo debe tratarse una medición inesperada?",
+          "options": [
+            "Sustituirla por la predicción.",
+            "Copiar el valor de otro equipo.",
+            "Revisar el instrumento y conservar el registro de la revisión.",
+            "Borrarla sin anotarlo."
+          ],
+          "correctIndex": 2,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 4 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "La revisión transparente conserva la evidencia y permite explicar errores.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 19",
+          "shuffleOptions": true
+        },
+        {
+          "prompt": "Experiencia 4: ¿Qué registro mejora la posibilidad de repetir la experiencia?",
+          "options": [
+            "Solo la conclusión final.",
+            "Solo los nombres del equipo.",
+            "Solo la respuesta preferida.",
+            "Materiales, procedimiento, condiciones y datos obtenidos."
+          ],
+          "correctIndex": 3,
+          "format": "Caso práctico",
+          "caseContext": "Un equipo del taller 4 compara dos grupos de semillas. Cambia la cantidad de agua y registra diariamente su longitud.\nEl registro conserva las condiciones de luz y suelo.",
+          "explanation": "Un registro del procedimiento y las condiciones permite repetir la experiencia.",
+          "source": "Material de prueba QA · Experiencia 4 · Sección 20",
+          "shuffleOptions": true
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "name": "archivo-falso.pdf",
+      "size": 31,
+      "sha256": "ee116c136dd33116a6cac87213ea05d63ade31f479ffa9f95c6b64756b309653"
+    },
+    {
+      "name": "audio-prueba.wav",
+      "size": 96044,
+      "sha256": "b95e613592e4dbff412374e5711fd56ceddaed413cca39bd875446947a75c0c0"
+    },
+    {
+      "name": "bloque-01.csv",
+      "size": 7783,
+      "sha256": "e089727bea58347439eaf29098e2e3b76386365dddbe5fbe852be48d6ab75b0b"
+    },
+    {
+      "name": "bloque-01.docx",
+      "size": 39217,
+      "sha256": "8c37be392b860fde5f3cd8e9499bc66a0078bd2b10e6c4286f2aeac2fb6479a6"
+    },
+    {
+      "name": "bloque-01.pdf",
+      "size": 31487,
+      "sha256": "38e8c5e6a71b03ddae7e71a63094ecb5582217bfa53f5422ff6e85c0efc67ce5"
+    },
+    {
+      "name": "bloque-01.txt",
+      "size": 9988,
+      "sha256": "3566eb8ee219482595275cd9b845ab43587c21c90f7973ba88ff1a3bf08f9208"
+    },
+    {
+      "name": "bloque-01.xlsx",
+      "size": 8358,
+      "sha256": "c385f8d43250e026b263a0486eb2a54ab9a75cd587beb6b76c0890bcccc85d9c"
+    },
+    {
+      "name": "bloque-02.csv",
+      "size": 7783,
+      "sha256": "b20acb7558d7b24f02596f2ce534e322e5ae1de6ac67cdb1e175d4178c9aee4b"
+    },
+    {
+      "name": "bloque-02.docx",
+      "size": 39219,
+      "sha256": "f678816d404e793b2c939693b8a97dd9940b47aa0d138b76d25ab9cf925b2213"
+    },
+    {
+      "name": "bloque-02.pdf",
+      "size": 31492,
+      "sha256": "17606097f8a7f044b3a60e640cca699d6d98a6980099060a9e20175d86f2ab34"
+    },
+    {
+      "name": "bloque-02.txt",
+      "size": 9988,
+      "sha256": "c46ef03b4a95d507cf1a06d5e07ba7af1b34d83e12869ab673fab5d1cb94506e"
+    },
+    {
+      "name": "bloque-02.xlsx",
+      "size": 8359,
+      "sha256": "cdcc60738c21a5088502ea6fdd863a38ea831ae1ec91284c28afec5abf2ed153"
+    },
+    {
+      "name": "bloque-03.csv",
+      "size": 7783,
+      "sha256": "bf2f809d132e0397455a2b90ca2c1f413c462160e8915c389f8fd713c0587117"
+    },
+    {
+      "name": "bloque-03.docx",
+      "size": 39219,
+      "sha256": "3035f1a817d45287eb27da3d6827eb3f58c1ed1171b75f5ac4a2e741385a1b03"
+    },
+    {
+      "name": "bloque-03.pdf",
+      "size": 31491,
+      "sha256": "ec1bb8ebc4aa5e0f878c389235b57cab82a273c7661c6c4e67f90fa5c8806151"
+    },
+    {
+      "name": "bloque-03.txt",
+      "size": 9988,
+      "sha256": "c9f6782f805b8019490cc9702e7da3fc3d2ed0fa51ad5c93c476b665b41d0cd0"
+    },
+    {
+      "name": "bloque-03.xlsx",
+      "size": 8357,
+      "sha256": "b489c2355959a1da2fc77b777c66db66a809dcd0ef26d719396935108dcf168c"
+    },
+    {
+      "name": "bloque-04.csv",
+      "size": 7783,
+      "sha256": "0ca2cd90edea446bef08b9485ab65854e2f6e1f79f36a15a19dae63f6937573d"
+    },
+    {
+      "name": "bloque-04.docx",
+      "size": 39220,
+      "sha256": "4e594e8e2217b8f37b066b75ee9dab94ae09390a164d07420f47770eef178d21"
+    },
+    {
+      "name": "bloque-04.pdf",
+      "size": 31490,
+      "sha256": "11551dfc657f7b13cdf5c81cb55afc26badbfbacf4ec8d3012b6254c4c856d14"
+    },
+    {
+      "name": "bloque-04.txt",
+      "size": 9988,
+      "sha256": "ca0340743e7bec9b44e1a1c68f037a44ce082703f1128c369fe902dd0aedb5ed"
+    },
+    {
+      "name": "bloque-04.xlsx",
+      "size": 8359,
+      "sha256": "28b6c259a40ba6a2adedd60010f34e9788f066f556fb401cc181cd8cd9e72dea"
+    },
+    {
+      "name": "bloque-errores.csv",
+      "size": 7783,
+      "sha256": "090e43d89d7cf54669c6728433148cc1f5ff7422dcef8f75052121be14592ad9"
+    },
+    {
+      "name": "escaneo-sin-texto.pdf",
+      "size": 24086,
+      "sha256": "96960c8d8c670eeaabfa2dd3205bc2f21af338fa2ee9fddd197377e0ca6d3e43"
+    },
+    {
+      "name": "infografia.png",
+      "size": 18986,
+      "sha256": "7f342baed382d259e196eb49b41892d44d139472aaafdf926a68d0fe5c6217d3"
+    },
+    {
+      "name": "material-lectura.pdf",
+      "size": 23367,
+      "sha256": "0c6b81a870e50765607d10dd34f3c7681a71cffc628000679ea44adc1097d3ee"
+    },
+    {
+      "name": "material-word.docx",
+      "size": 36683,
+      "sha256": "248fb6379505bda710ea312e029df113b9f9a153ace680b6fbdd58fc65c86e51"
+    },
+    {
+      "name": "word-danado.docx",
+      "size": 22,
+      "sha256": "0e039bf8f031875169c7761253cfda6baac7c867fb1e950b2c09c09260238d2e"
+    }
+  ]
+}

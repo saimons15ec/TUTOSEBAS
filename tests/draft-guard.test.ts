@@ -1,0 +1,6 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { DraftRegistry } from '../lib/draft-guard.ts';
+test('canceling a departure retains all drafts; confirming discards the requested scope only', () => { const r = new DraftRegistry(); let a = true, b = true; r.register('a', () => a, () => { a = false; }); r.register('b', () => b, () => { b = false; }); assert.equal(r.confirm(() => false), false); assert.equal(a && b, true); assert.equal(r.confirm(() => true, ['a']), true); assert.equal(a, false); assert.equal(b, true); });
+test('saving clears only that form and unmounting unregisters it', () => { const r = new DraftRegistry(); let a = true; const remove = r.register('a', () => a, () => { a = false; }); r.register('b', () => true); r.clear('a'); assert.equal(r.dirty(['a']), false); assert.equal(r.dirty(), true); remove(); assert.equal(r.dirty(['a']), false); });
+test('unchanged or reverted forms leave without a confirmation', () => { const r = new DraftRegistry(); let value = 'old'; r.register('form', () => value !== 'old'); assert.equal(r.confirm(() => { throw new Error('unnecessary prompt'); }), true); value = 'new'; assert.equal(r.dirty(), true); value = 'old'; assert.equal(r.dirty(), false); });

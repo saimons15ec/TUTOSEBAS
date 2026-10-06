@@ -13,6 +13,20 @@ export type AuditEvent = {
 export type RateLimitPolicy = { limit: number; windowSeconds: number };
 
 const RATE_POLICIES: Record<string, RateLimitPolicy> = {
+  "auth:login-ip": { limit: 60, windowSeconds: 300 },
+  "auth:login-email": { limit: 8, windowSeconds: 900 },
+  "auth:assign-password": { limit: 20, windowSeconds: 3600 },
+  "auth:change-password": { limit: 8, windowSeconds: 900 },
+  save_plan_template: { limit: 30, windowSeconds: 3600 },
+  save_group_permissions: { limit: 60, windowSeconds: 3600 },
+  activate_plan: { limit: 60, windowSeconds: 3600 },
+  remove_subject: { limit: 30, windowSeconds: 3600 },
+  restore_subject: { limit: 30, windowSeconds: 3600 },
+  create_period: { limit: 30, windowSeconds: 3600 },
+  activate_period: { limit: 30, windowSeconds: 3600 },
+  save_notice: { limit: 60, windowSeconds: 3600 },
+  set_notice_status: { limit: 60, windowSeconds: 3600 },
+  edit_student: { limit: 60, windowSeconds: 3600 },
   "platform:read": { limit: 180, windowSeconds: 300 },
   "files:read": { limit: 180, windowSeconds: 300 },
   "files:write": { limit: 20, windowSeconds: 3600 },
@@ -20,9 +34,27 @@ const RATE_POLICIES: Record<string, RateLimitPolicy> = {
   "security:reconcile-files": { limit: 5, windowSeconds: 3600 },
   report_payment: { limit: 5, windowSeconds: 3600 },
   submit_work: { limit: 10, windowSeconds: 3600 },
+  import_question_block: { limit: 20, windowSeconds: 3600 },
+  approve_question_block: { limit: 30, windowSeconds: 3600 },
+  sync_academic_topics: { limit: 10, windowSeconds: 3600 },
+  save_academic_topic: { limit: 60, windowSeconds: 3600 },
+  update_additional_resource: { limit: 60, windowSeconds: 3600 },
+  set_additional_reference: { limit: 60, windowSeconds: 3600 },
+  save_resource_section: { limit: 60, windowSeconds: 3600 },
+  move_resource_section: { limit: 120, windowSeconds: 3600 },
+  archive_resource_section: { limit: 30, windowSeconds: 3600 },
+  restore_resource_section: { limit: 30, windowSeconds: 3600 },
+  replace_additional_content: { limit: 60, windowSeconds: 3600 },
+  save_academic_material: { limit: 60, windowSeconds: 3600 },
+  save_course_lesson: { limit: 120, windowSeconds: 3600 },
+  set_course_lesson_status: { limit: 120, windowSeconds: 3600 },
+  publish_course_lessons: { limit: 30, windowSeconds: 3600 },
+  move_course_lesson: { limit: 120, windowSeconds: 3600 },
+  set_course_lesson_progress: { limit: 240, windowSeconds: 300 },
   start_simulator_attempt: { limit: 30, windowSeconds: 600 },
   finish_simulator_attempt: { limit: 30, windowSeconds: 600 },
   check_practice_answer: { limit: 240, windowSeconds: 300 },
+  start_practice_session: { limit: 30, windowSeconds: 600 },
 };
 
 export function rateLimitPolicy(scope: string): RateLimitPolicy {
@@ -106,6 +138,7 @@ export async function maybeRunSecurityMaintenance(database: D1Database) {
   const sample = crypto.getRandomValues(new Uint8Array(1))[0];
   if (sample !== 0) return;
   await database.batch([
+    database.prepare("DELETE FROM auth_sessions WHERE expires_at<=unixepoch() OR last_seen_at<=unixepoch()-1800"),
     database.prepare("DELETE FROM rate_limits WHERE updated_at < datetime('now','-7 days')"),
     database.prepare("DELETE FROM security_audit WHERE created_at < datetime('now','-365 days')"),
   ]);
